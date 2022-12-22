@@ -1,0 +1,32 @@
+syntax = "proto3";
+package reservation;
+
+import "google/api/annotations.proto";
+option go_package = "github.com/res-backend";
+service DataManagerService {
+  // 获取数据管理系统状态信息.
+  rpc GetSystemInfo(GetSystemInfoRequest) returns (GetSystemInfoResponse) {
+    option (google.api.http) = {
+      get: "/v1/get_system_info"
+    };
+  }
+}
+
+// GetSystemInfoRequest 表示获取系统信息请求.
+message GetSystemInfoRequest {
+}
+// GetSystemInfoResponse 表示获取系统信息响应.
+message GetSystemInfoResponse {
+  // 已使用磁盘空间总数, 单位兆字节.
+  int64 totalUsedMb          = 1;
+  // 磁盘空间容量总数, 单位兆字节.
+  int64 totalMb               = 2;
+  // 可用磁盘容量, 单位兆字节.
+  int64 availableMb           = 3;
+  // 是否成功访问
+  bool success                 = 8;
+  // 错误码
+  string errorCode            = 9;
+  // 错误详情
+  string errorMsg             = 10;
+}

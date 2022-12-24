@@ -2,8 +2,8 @@ syntax = "proto3";
 package reservation;
 
 import "google/api/annotations.proto";
-option go_package = "github.com/res-backend";
-service DataManagerService {
+option go_package = "github.com/reservation/api";
+service ReservationService {
   // 获取数据管理系统状态信息.
   rpc GetSystemInfo(GetSystemInfoRequest) returns (GetSystemInfoResponse) {
     option (google.api.http) = {
@@ -15,6 +15,7 @@ service DataManagerService {
 // GetSystemInfoRequest 表示获取系统信息请求.
 message GetSystemInfoRequest {
 }
+
 // GetSystemInfoResponse 表示获取系统信息响应.
 message GetSystemInfoResponse {
   // 已使用磁盘空间总数, 单位兆字节.

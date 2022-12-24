@@ -414,7 +414,9 @@ func (x *Activity) Reset() {
 		ms.StoreMessageInfo(mi)
 	}
 }
-
+func (x *Activity) TableName() string{
+	return "activity"
+}
 func (x *Activity) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }

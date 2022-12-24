@@ -31,8 +31,6 @@ var logger *zap.Logger
 func RunGRPCServer(config config.Config) error {
 	InitLogger()
 	interceptor := func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		// 使用Validator不使用Person;是为了避免硬编码
-		// 这样拦截器每个需要验证的req都可以使用
 		if p, ok := req.(Validator); ok {
 			if err := p.Validate(); err != nil {
 				// 参数没有通过验证时;返回一个错误不继续向下执行
@@ -63,7 +61,7 @@ func RunGRPCServer(config config.Config) error {
 	}
 	resServer, err := NewReservationServer(config)
 	if err != nil {
-		logger.Error("Run(). Create sdb server failed:" + err.Error())
+		logger.Error("Run(). Create res server failed:" + err.Error())
 		return err
 	}
 	s := grpc.NewServer(options...)

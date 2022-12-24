@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"bytes"
+	"github.com/spf13/viper"
 	"io/ioutil"
 	"os"
 )
@@ -11,6 +11,10 @@ import (
 type Config struct {
 	GRPCPort       string               `json:"GRPCPort"`       // grpc监听地址
 	HTTPPort       string               `json:"HTTPPort"`       // http监听地址
+	MySQL          MySQLConfig          `json:"MySQLConfig"`       // MySQL配置
+}
+// MySQLConfig MySQL配置
+type MySQLConfig struct{
 }
 
 func ReadConfig(file string, config interface{}) (err error) {

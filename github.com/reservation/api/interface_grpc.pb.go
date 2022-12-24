@@ -22,8 +22,12 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ReservationServiceClient interface {
-	// 获取数据管理系统状态信息.
-	GetSystemInfo(ctx context.Context, in *GetSystemInfoRequest, opts ...grpc.CallOption) (*GetSystemInfoResponse, error)
+	// 获取预约系统状态信息.
+	GetSystemInfo(ctx context.Context, in *GetSystemInfoReq, opts ...grpc.CallOption) (*GetSystemInfoResp, error)
+	// 获取全部可参加的活动列表
+	QueryActivityList(ctx context.Context, in *QueryActivityListReq, opts ...grpc.CallOption) (*QueryActivityListResp, error)
+	// 获取某一天的可参加的活动列表
+	QueryActivityListByDay(ctx context.Context, in *QueryActivityListByDayReq, opts ...grpc.CallOption) (*QueryActivityListByDayResp, error)
 }
 
 type reservationServiceClient struct {
@@ -34,9 +38,27 @@ func NewReservationServiceClient(cc grpc.ClientConnInterface) ReservationService
 	return &reservationServiceClient{cc}
 }
 
-func (c *reservationServiceClient) GetSystemInfo(ctx context.Context, in *GetSystemInfoRequest, opts ...grpc.CallOption) (*GetSystemInfoResponse, error) {
-	out := new(GetSystemInfoResponse)
+func (c *reservationServiceClient) GetSystemInfo(ctx context.Context, in *GetSystemInfoReq, opts ...grpc.CallOption) (*GetSystemInfoResp, error) {
+	out := new(GetSystemInfoResp)
 	err := c.cc.Invoke(ctx, "/reservation.ReservationService/GetSystemInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reservationServiceClient) QueryActivityList(ctx context.Context, in *QueryActivityListReq, opts ...grpc.CallOption) (*QueryActivityListResp, error) {
+	out := new(QueryActivityListResp)
+	err := c.cc.Invoke(ctx, "/reservation.ReservationService/QueryActivityList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reservationServiceClient) QueryActivityListByDay(ctx context.Context, in *QueryActivityListByDayReq, opts ...grpc.CallOption) (*QueryActivityListByDayResp, error) {
+	out := new(QueryActivityListByDayResp)
+	err := c.cc.Invoke(ctx, "/reservation.ReservationService/QueryActivityListByDay", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,8 +69,12 @@ func (c *reservationServiceClient) GetSystemInfo(ctx context.Context, in *GetSys
 // All implementations must embed UnimplementedReservationServiceServer
 // for forward compatibility
 type ReservationServiceServer interface {
-	// 获取数据管理系统状态信息.
-	GetSystemInfo(context.Context, *GetSystemInfoRequest) (*GetSystemInfoResponse, error)
+	// 获取预约系统状态信息.
+	GetSystemInfo(context.Context, *GetSystemInfoReq) (*GetSystemInfoResp, error)
+	// 获取全部可参加的活动列表
+	QueryActivityList(context.Context, *QueryActivityListReq) (*QueryActivityListResp, error)
+	// 获取某一天的可参加的活动列表
+	QueryActivityListByDay(context.Context, *QueryActivityListByDayReq) (*QueryActivityListByDayResp, error)
 	mustEmbedUnimplementedReservationServiceServer()
 }
 
@@ -56,8 +82,14 @@ type ReservationServiceServer interface {
 type UnimplementedReservationServiceServer struct {
 }
 
-func (UnimplementedReservationServiceServer) GetSystemInfo(context.Context, *GetSystemInfoRequest) (*GetSystemInfoResponse, error) {
+func (UnimplementedReservationServiceServer) GetSystemInfo(context.Context, *GetSystemInfoReq) (*GetSystemInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSystemInfo not implemented")
+}
+func (UnimplementedReservationServiceServer) QueryActivityList(context.Context, *QueryActivityListReq) (*QueryActivityListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryActivityList not implemented")
+}
+func (UnimplementedReservationServiceServer) QueryActivityListByDay(context.Context, *QueryActivityListByDayReq) (*QueryActivityListByDayResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryActivityListByDay not implemented")
 }
 func (UnimplementedReservationServiceServer) mustEmbedUnimplementedReservationServiceServer() {}
 
@@ -73,7 +105,7 @@ func RegisterReservationServiceServer(s grpc.ServiceRegistrar, srv ReservationSe
 }
 
 func _ReservationService_GetSystemInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSystemInfoRequest)
+	in := new(GetSystemInfoReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -85,7 +117,43 @@ func _ReservationService_GetSystemInfo_Handler(srv interface{}, ctx context.Cont
 		FullMethod: "/reservation.ReservationService/GetSystemInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ReservationServiceServer).GetSystemInfo(ctx, req.(*GetSystemInfoRequest))
+		return srv.(ReservationServiceServer).GetSystemInfo(ctx, req.(*GetSystemInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ReservationService_QueryActivityList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryActivityListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).QueryActivityList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/reservation.ReservationService/QueryActivityList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).QueryActivityList(ctx, req.(*QueryActivityListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ReservationService_QueryActivityListByDay_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryActivityListByDayReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).QueryActivityListByDay(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/reservation.ReservationService/QueryActivityListByDay",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).QueryActivityListByDay(ctx, req.(*QueryActivityListByDayReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -100,6 +168,14 @@ var ReservationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSystemInfo",
 			Handler:    _ReservationService_GetSystemInfo_Handler,
+		},
+		{
+			MethodName: "QueryActivityList",
+			Handler:    _ReservationService_QueryActivityList_Handler,
+		},
+		{
+			MethodName: "QueryActivityListByDay",
+			Handler:    _ReservationService_QueryActivityListByDay_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

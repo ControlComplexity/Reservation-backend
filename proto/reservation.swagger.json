@@ -1,0 +1,490 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/reservation.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ReservationService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/get_system_info": {
+      "get": {
+        "summary": "获取预约系统状态信息.",
+        "operationId": "ReservationService_GetSystemInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationGetSystemInfoResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/query/activity_list": {
+      "post": {
+        "summary": "获取全部可参加的活动列表",
+        "operationId": "ReservationService_QueryActivityList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationQueryActivityListResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reservationQueryActivityListReq"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/query/activity_list_by_day": {
+      "post": {
+        "summary": "获取某一天的可参加的活动列表",
+        "operationId": "ReservationService_QueryActivityListByDay",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationQueryActivityListByDayResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reservationQueryActivityListByDayReq"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/query/order_list": {
+      "post": {
+        "operationId": "ReservationService_QueryOrderList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationQueryOrderListResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reservationQueryOrderListReq"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/user/generate_mbti": {
+      "post": {
+        "operationId": "ReservationService_GenerateMBTI",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationGenerateMBTIResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reservationGenerateMBTIReq"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/user/login": {
+      "post": {
+        "operationId": "ReservationService_Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationLoginResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reservationLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/user/register": {
+      "post": {
+        "operationId": "ReservationService_Register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationRegisterResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reservationRegisterReq"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "reservationActivity": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "名称"
+        },
+        "price": {
+          "type": "number",
+          "format": "float",
+          "title": "价格"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "int64",
+          "title": "时间戳"
+        },
+        "location": {
+          "type": "string"
+        },
+        "smallImg": {
+          "type": "string",
+          "title": "小图"
+        },
+        "bigImg": {
+          "type": "string",
+          "title": "大图"
+        },
+        "description": {
+          "type": "string",
+          "title": "描述"
+        }
+      },
+      "title": "活动详情"
+    },
+    "reservationGenerateMBTIReq": {
+      "type": "object"
+    },
+    "reservationGenerateMBTIResp": {
+      "type": "object"
+    },
+    "reservationGetSystemInfoResp": {
+      "type": "object",
+      "properties": {
+        "totalUsedMb": {
+          "type": "string",
+          "format": "int64",
+          "description": "已使用磁盘空间总数, 单位兆字节."
+        },
+        "totalMb": {
+          "type": "string",
+          "format": "int64",
+          "description": "磁盘空间容量总数, 单位兆字节."
+        },
+        "availableMb": {
+          "type": "string",
+          "format": "int64",
+          "description": "可用磁盘容量, 单位兆字节."
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功访问"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      },
+      "description": "GetSystemInfoResp 表示获取系统信息响应."
+    },
+    "reservationLoginReq": {
+      "type": "object"
+    },
+    "reservationLoginResp": {
+      "type": "object"
+    },
+    "reservationQueryActivityListByDayReq": {
+      "type": "object",
+      "properties": {
+        "day": {
+          "type": "string",
+          "title": "日期，格式为 \"20221226\""
+        }
+      },
+      "title": "获取某一天的可参加的活动列表请求"
+    },
+    "reservationQueryActivityListByDayResp": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/reservationQueryActivityListByDayRespData",
+          "title": "活动列表数据"
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功访问"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      },
+      "title": "获取某一天的可参加的活动列表返回"
+    },
+    "reservationQueryActivityListByDayRespData": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "title": "当前页记录数"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32",
+          "title": "总页数"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32",
+          "title": "本次请求结果实际页码, 一般与请求参数一致"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32",
+          "title": "分页大小"
+        },
+        "activityList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reservationActivity"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "title": "查询命中的对象总数, 请求参数trackTotalHits为真时生效, 否则返回-1"
+        }
+      },
+      "title": "活动列表数据"
+    },
+    "reservationQueryActivityListReq": {
+      "type": "object",
+      "title": "获取全部可参加的活动列表请求"
+    },
+    "reservationQueryActivityListResp": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/reservationQueryActivityListRespData",
+          "title": "活动列表数据"
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功访问"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      },
+      "title": "获取全部可参加的活动列表返回"
+    },
+    "reservationQueryActivityListRespData": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "title": "当前页记录数"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32",
+          "title": "总页数"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32",
+          "title": "本次请求结果实际页码, 一般与请求参数一致"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32",
+          "title": "分页大小"
+        },
+        "activityList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reservationActivity"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "title": "查询命中的对象总数, 请求参数trackTotalHits为真时生效, 否则返回-1"
+        }
+      },
+      "title": "活动列表数据"
+    },
+    "reservationQueryOrderListReq": {
+      "type": "object"
+    },
+    "reservationQueryOrderListResp": {
+      "type": "object"
+    },
+    "reservationRegisterReq": {
+      "type": "object"
+    },
+    "reservationRegisterResp": {
+      "type": "object"
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

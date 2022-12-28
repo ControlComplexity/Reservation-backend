@@ -109,6 +109,10 @@ message GetSystemInfoResp {
 message QueryActivityListByDayReq{
   //日期，格式为 "20221226"
   string day = 1;
+  // 本次请求结果实际页码, 一般与请求参数一致
+  int32 pageNum                                      = 2 ;
+  // 分页大小
+  int32 pageSize                                     = 3 ;
 }
 
 // 获取某一天的可参加的活动列表返回

@@ -264,11 +264,11 @@
         "location": {
           "type": "string"
         },
-        "smallImg": {
+        "small_img": {
           "type": "string",
           "title": "小图"
         },
-        "bigImg": {
+        "big_img": {
           "type": "string",
           "title": "大图"
         },
@@ -330,6 +330,16 @@
         "day": {
           "type": "string",
           "title": "日期，格式为 \"20221226\""
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32",
+          "title": "本次请求结果实际页码, 一般与请求参数一致"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32",
+          "title": "分页大小"
         }
       },
       "title": "获取某一天的可参加的活动列表请求"

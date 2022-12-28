@@ -1073,6 +1073,10 @@ func (m *QueryActivityListByDayReq) validate(all bool) error {
 
 	// no validation rules for Day
 
+	// no validation rules for PageNum
+
+	// no validation rules for PageSize
+
 	if len(errors) > 0 {
 		return QueryActivityListByDayReqMultiError(errors)
 	}

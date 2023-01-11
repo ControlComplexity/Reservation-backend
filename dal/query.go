@@ -1,4 +1,4 @@
-package dao
+package dal
 
 import (
 	"fmt"
@@ -56,4 +56,27 @@ func QueryActivityListByDay(req *api.QueryActivityListByDayReq) (*api.QueryActiv
 		},
 		ErrorCode: "0",
 	}, nil
+}
+
+//查询订单
+func QueryOrderList(req *api.QueryOrderListReq) (*api.QueryOrderListResp, error) {
+	db := Init()
+	var orders []api.Order
+	fmt.Println("db2:", db)
+	db.Model(&api.Order{}).Find(&orders)
+	fmt.Println("orders:", orders)
+	orderSlice := make([]*api.Order, 0)
+	for _, or := range orders {
+		orderSlice = append(orderSlice, &or)
+	}
+	return &api.QueryOrderListResp{
+		Data: &api.QueryOrderListResp_Data{
+			OrderList: orderSlice,
+		},
+		ErrorCode: "0",
+	}, nil
+}
+
+func Register(req *api.RegisterReq) (*api.RegisterResp, error) {
+	return nil, nil
 }

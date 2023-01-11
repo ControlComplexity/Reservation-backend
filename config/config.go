@@ -9,12 +9,16 @@ import (
 
 // Config 服务器配置
 type Config struct {
-	GRPCPort       string               `json:"GRPCPort"`       // grpc监听地址
-	HTTPPort       string               `json:"HTTPPort"`       // http监听地址
-	MySQL          MySQLConfig          `json:"MySQLConfig"`       // MySQL配置
+	GRPCPort string      `json:"GRPCPort"`    // grpc监听地址
+	HTTPPort string      `json:"HTTPPort"`    // http监听地址
+	MySQL    MySQLConfig `json:"MySQLConfig"` // MySQL配置
 }
+
 // MySQLConfig MySQL配置
-type MySQLConfig struct{
+type MySQLConfig struct {
+	UserName string `json:"UserName"` // MySQL用户名配置
+	Password string `json:"Password"` // MySQL密码配置
+	DBName   string `json:"DBName"`   // MySQL数据库名称
 }
 
 func ReadConfig(file string, config interface{}) (err error) {

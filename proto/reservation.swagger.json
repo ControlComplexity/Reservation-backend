@@ -107,6 +107,7 @@
     },
     "/v1/query/order_list": {
       "post": {
+        "summary": "查询订单接口",
         "operationId": "ReservationService_QueryOrderList",
         "responses": {
           "200": {
@@ -139,6 +140,7 @@
     },
     "/v1/user/generate_mbti": {
       "post": {
+        "summary": "生成MBTI",
         "operationId": "ReservationService_GenerateMBTI",
         "responses": {
           "200": {
@@ -169,40 +171,9 @@
         ]
       }
     },
-    "/v1/user/login": {
-      "post": {
-        "operationId": "ReservationService_Login",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/reservationLoginResp"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/reservationLoginReq"
-            }
-          }
-        ],
-        "tags": [
-          "ReservationService"
-        ]
-      }
-    },
     "/v1/user/register": {
       "post": {
+        "summary": "用户注册",
         "operationId": "ReservationService_Register",
         "responses": {
           "200": {
@@ -225,6 +196,39 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/reservationRegisterReq"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/user/wx_login": {
+      "post": {
+        "summary": "微信登录",
+        "operationId": "ReservationService_WXLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationWXLoginResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reservationWXLoginReq"
             }
           }
         ],
@@ -275,6 +279,10 @@
         "description": {
           "type": "string",
           "title": "描述"
+        },
+        "activitySerial": {
+          "type": "string",
+          "title": "活动序列号"
         }
       },
       "title": "活动详情"
@@ -318,11 +326,53 @@
       },
       "description": "GetSystemInfoResp 表示获取系统信息响应."
     },
-    "reservationLoginReq": {
-      "type": "object"
+    "reservationMBTIResult": {
+      "type": "object",
+      "properties": {
+        "extraversion": {
+          "type": "number",
+          "format": "float",
+          "title": "注意力方向（精力来源），外倾"
+        },
+        "sensing": {
+          "type": "number",
+          "format": "float",
+          "title": "认知方式（如何搜集信息），实感"
+        },
+        "thinking": {
+          "type": "number",
+          "format": "float",
+          "title": "判断方式（如何做决定），理智"
+        },
+        "judging": {
+          "type": "number",
+          "format": "float",
+          "title": "生活方式（如何应对外部世界），判断"
+        }
+      }
     },
-    "reservationLoginResp": {
-      "type": "object"
+    "reservationOrder": {
+      "type": "object",
+      "properties": {
+        "orderSerial": {
+          "type": "string",
+          "title": "序列号"
+        },
+        "activitySerial": {
+          "type": "string",
+          "title": "关联的活动序列号"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "int64",
+          "title": "时间戳"
+        },
+        "status": {
+          "type": "string",
+          "title": "状态。分为待付款，已付款，已退款"
+        }
+      },
+      "title": "订单"
     },
     "reservationQueryActivityListByDayReq": {
       "type": "object",
@@ -393,7 +443,8 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/reservationActivity"
-          }
+          },
+          "title": "活动列表"
         },
         "total": {
           "type": "integer",
@@ -456,6 +507,96 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/reservationActivity"
+          },
+          "title": "活动列表"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "title": "查询命中的对象总数, 请求参数trackTotalHits为真时生效, 否则返回-1"
+        }
+      },
+      "title": "活动列表数据"
+    },
+    "reservationQueryMBTIResp": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/reservationMBTIResult",
+          "title": "MBTI数据"
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功注册"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      },
+      "title": "查询MBTI返回"
+    },
+    "reservationQueryOrderListReq": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "title": "用户的uuid"
+        }
+      }
+    },
+    "reservationQueryOrderListResp": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/reservationQueryOrderListRespData",
+          "title": "活动列表数据"
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功访问"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      }
+    },
+    "reservationQueryOrderListRespData": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "title": "当前页记录数"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32",
+          "title": "总页数"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32",
+          "title": "本次请求结果实际页码, 一般与请求参数一致"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32",
+          "title": "分页大小"
+        },
+        "orderList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reservationOrder"
           }
         },
         "total": {
@@ -466,17 +607,73 @@
       },
       "title": "活动列表数据"
     },
-    "reservationQueryOrderListReq": {
-      "type": "object"
-    },
-    "reservationQueryOrderListResp": {
-      "type": "object"
-    },
     "reservationRegisterReq": {
       "type": "object"
     },
     "reservationRegisterResp": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "title": "是否成功注册"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      }
+    },
+    "reservationWXLoginReq": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "title": "登录时获取的 code，可通过wx.login获取"
+        }
+      },
+      "title": "微信登录请求"
+    },
+    "reservationWXLoginResp": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/reservationWXLoginRespData"
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功访问"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      },
+      "title": "微信登录返回"
+    },
+    "reservationWXLoginRespData": {
+      "type": "object",
+      "properties": {
+        "openId": {
+          "type": "string",
+          "title": "用户唯一标识"
+        },
+        "sessionKey": {
+          "type": "string",
+          "title": "会话密钥"
+        },
+        "unionId": {
+          "type": "string",
+          "title": "用户在开放平台的唯一标识符，若当前小程序已绑定到微信开放平台帐号下会返回，详见 UnionID 机制说明。"
+        }
+      }
     },
     "rpcStatus": {
       "type": "object",

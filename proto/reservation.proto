@@ -10,21 +10,22 @@ service ReservationService {
       get: "/v1/get_system_info"
     };
   }
-
+ //用户注册
   rpc Register (RegisterReq)returns (RegisterResp){
     option (google.api.http) = {
       post: "/v1/user/register"
       body: "*"
     };
   }
-
-  rpc Login (LoginReq)returns (LoginResp){
+ //微信登录
+  rpc WXLogin (WXLoginReq)returns (WXLoginResp){
     option (google.api.http) = {
-      post: "/v1/user/login"
+      post: "/v1/user/wx_login"
       body: "*"
     };
   }
 
+ //生成MBTI
   rpc GenerateMBTI (GenerateMBTIReq)returns (GenerateMBTIResp){
     option (google.api.http) = {
       post: "/v1/user/generate_mbti"
@@ -32,6 +33,12 @@ service ReservationService {
     };
   }
 
+  //查询某人的MBTI结果
+  rpc QueryMBTI(QueryMBTIReq) returns (QueryMBTIResp){
+
+  }
+
+  //查询订单接口
   rpc QueryOrderList (QueryOrderListReq)returns (QueryOrderListResp){
     option (google.api.http) = {
       post: "/v1/query/order_list"
@@ -54,6 +61,34 @@ service ReservationService {
     };
   }
 }
+//查询MBTI请求
+message QueryMBTIReq{
+  //用户UUID
+  string uuid = 1;
+}
+//查询MBTI返回
+message QueryMBTIResp{
+  //MBTI数据
+  MBTIResult data                   = 1;
+  // 是否成功注册
+  bool success                = 2;
+  // 错误码
+  string errorCode            = 3;
+  // 错误详情
+  string errorMsg             = 4;
+}
+
+message MBTIResult{
+  //注意力方向（精力来源），外倾
+  float extraversion = 1;
+  //认知方式（如何搜集信息），实感
+  float sensing = 2;
+  //判断方式（如何做决定），理智
+  float thinking = 3;
+  //生活方式（如何应对外部世界），判断
+  float judging = 4;
+}
+
 message GenerateMBTIReq{
 
 }
@@ -67,23 +102,67 @@ message RegisterReq{
 }
 
 message RegisterResp{
-
+  // 是否成功注册
+  bool success                 = 8;
+  // 错误码
+  string errorCode            = 9;
+  // 错误详情
+  string errorMsg             = 10;
 }
 
-message LoginReq{
-
+//微信登录请求
+message WXLoginReq{
+  //登录时获取的 code，可通过wx.login获取
+  string code = 1;
 }
 
-message LoginResp{
-
+//微信登录返回
+message WXLoginResp{
+  message Data{
+    //用户唯一标识
+   string openId  = 1;
+   //会话密钥
+   string sessionKey = 2;
+   //用户在开放平台的唯一标识符，若当前小程序已绑定到微信开放平台帐号下会返回，详见 UnionID 机制说明。
+   string unionId = 3;
+  }
+  Data data                   = 1;
+  // 是否成功访问
+  bool success                = 2;
+  // 错误码
+  string errorCode            = 3;
+  // 错误详情
+  string errorMsg             = 4;
 }
 
 message QueryOrderListReq{
-
+  //用户的uuid
+  string uuid = 1;
 }
 
 message QueryOrderListResp{
-
+  //活动列表数据
+  message Data {
+    // 当前页记录数
+    int32 size                                          = 1;
+    // 总页数
+    int32 pages                                         = 2;
+    // 本次请求结果实际页码, 一般与请求参数一致
+    int32 pageNum                                      = 3 ;
+    // 分页大小
+    int32 pageSize                                     = 4 ;
+    repeated Order orderList = 5;
+    // 查询命中的对象总数, 请求参数trackTotalHits为真时生效, 否则返回-1
+    int32 total                                         = 6;
+  }
+  //活动列表数据
+  Data data         = 1;
+  // 是否成功访问
+  bool success                 = 8;
+  // 错误码
+  string errorCode            = 9;
+  // 错误详情
+  string errorMsg             = 10;
 }
 
 // GetSystemInfoReq 表示获取系统信息请求.
@@ -105,6 +184,7 @@ message GetSystemInfoResp {
   // 错误详情
   string errorMsg             = 10;
 }
+
 // 获取某一天的可参加的活动列表请求
 message QueryActivityListByDayReq{
   //日期，格式为 "20221226"
@@ -127,6 +207,7 @@ message QueryActivityListByDayResp{
     int32 pageNum                                      = 3 ;
     // 分页大小
     int32 pageSize                                     = 4 ;
+    // 活动列表
     repeated Activity activityList = 5;
     // 查询命中的对象总数, 请求参数trackTotalHits为真时生效, 否则返回-1
     int32 total                                         = 6;
@@ -155,6 +236,7 @@ message QueryActivityListResp{
     int32 pageNum                                      = 3 ;
     // 分页大小
     int32 pageSize                                     = 4 ;
+    // 活动列表
     repeated Activity activityList = 5;
     // 查询命中的对象总数, 请求参数trackTotalHits为真时生效, 否则返回-1
     int32 total                                         = 6;
@@ -184,4 +266,18 @@ string small_img = 5;
 string big_img = 6;
 //描述
 string description = 7;
+  //活动序列号
+string activitySerial = 8;
+}
+
+//订单
+message Order{
+  //序列号
+  string orderSerial = 1;
+  //关联的活动序列号
+  string activitySerial = 2;
+  //时间戳
+  int64 timestamp= 3;
+  //状态。分为待付款，已付款，已退款
+  string status = 4;
 }

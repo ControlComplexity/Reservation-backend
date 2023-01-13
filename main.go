@@ -12,10 +12,11 @@ import (
 )
 
 var (
-	configs     = &config.Config{}
-	logger *zap.Logger
-	configPath  = flag.String("config", "config/application.yml", "reservation-service config file")
+	configs    = &config.Config{}
+	logger     *zap.Logger
+	configPath = flag.String("config", "config/reservation.yml", "reservation-service config file")
 )
+
 func InitLogger() {
 	// 通过 zap.NewProduction() 创建一个 logger
 	logger, _ = zap.NewProduction()

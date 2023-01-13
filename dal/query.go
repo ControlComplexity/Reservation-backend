@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"reservation/github.com/reservation/api"
+	"reservation/model"
 )
 
 func Init() *gorm.DB {
@@ -24,13 +25,17 @@ func GetSystemInfo() (*api.GetSystemInfoResp, error) {
 
 func QueryActivityList() (*api.QueryActivityListResp, error) {
 	db := Init()
-	var activities []api.Activity
+	var activities []model.ActivityDO
 	fmt.Println("db2:", db)
-	db.Model(&api.Activity{}).Find(&activities)
+	db.Model(&model.ActivityDO{}).Find(&activities)
 	fmt.Println("activities:", activities)
 	activitySlice := make([]*api.Activity, 0)
 	for _, ac := range activities {
-		activitySlice = append(activitySlice, &ac)
+
+		activitySlice = append(activitySlice, &api.Activity{
+			Name:  ac.Name,
+			Price: ac.Price,
+		})
 	}
 	return &api.QueryActivityListResp{
 		Data: &api.QueryActivityListResp_Data{
@@ -42,13 +47,16 @@ func QueryActivityList() (*api.QueryActivityListResp, error) {
 
 func QueryActivityListByDay(req *api.QueryActivityListByDayReq) (*api.QueryActivityListByDayResp, error) {
 	db := Init()
-	var activities []api.Activity
+	var activities []model.ActivityDO
 	fmt.Println("db2:", db)
-	db.Model(&api.Activity{}).Where("time < ? ", req.Day).Where("time > ? ", req.Day).Find(&activities)
+	db.Model(&model.ActivityDO{}).Where("time < ? ", req.Day).Where("time > ? ", req.Day).Find(&activities)
 	fmt.Println("activities:", activities)
 	activitySlice := make([]*api.Activity, 0)
 	for _, ac := range activities {
-		activitySlice = append(activitySlice, &ac)
+		activitySlice = append(activitySlice, &api.Activity{
+			Name:  ac.Name,
+			Price: ac.Price,
+		})
 	}
 	return &api.QueryActivityListByDayResp{
 		Data: &api.QueryActivityListByDayResp_Data{
@@ -58,7 +66,7 @@ func QueryActivityListByDay(req *api.QueryActivityListByDayReq) (*api.QueryActiv
 	}, nil
 }
 
-//查询订单
+// 查询订单
 func QueryOrderList(req *api.QueryOrderListReq) (*api.QueryOrderListResp, error) {
 	db := Init()
 	var orders []api.Order

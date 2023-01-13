@@ -806,6 +806,10 @@ func (m *WXLoginReq) validate(all bool) error {
 
 	// no validation rules for Code
 
+	// no validation rules for Env
+
+	// no validation rules for Iv
+
 	if len(errors) > 0 {
 		return WXLoginReqMultiError(errors)
 	}

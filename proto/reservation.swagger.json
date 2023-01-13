@@ -633,6 +633,14 @@
         "code": {
           "type": "string",
           "title": "登录时获取的 code，可通过wx.login获取"
+        },
+        "env": {
+          "type": "string",
+          "title": "云开发环境id"
+        },
+        "iv": {
+          "type": "string",
+          "title": "加密算法的初始向量"
         }
       },
       "title": "微信登录请求"

@@ -12,9 +12,9 @@ import (
 
 type WXLoginResp struct {
 	OpenId     string `json:"openid"`
-	SessionKey string `json:"sessionKey"`
+	SessionKey string `json:"session_key"`
 	UnionId    string `json:"unionid"`
-	ErrCode    int    `json:"errCode"`
+	ErrCode    int    `json:"errcode"`
 	ErrMsg     string `json:"errmsg"`
 }
 
@@ -22,7 +22,7 @@ type WXLoginResp struct {
 func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
 	url := "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code"
 	// 合成url, 这里的appId和secret是在微信公众平台上获取的
-	url = fmt.Sprintf(url, "appId", "secret", req.Code)
+	url = fmt.Sprintf(url, "wx06797c8809af4258", "b0720ee70c3c1e1a152b754af8657ae8", req.Code)
 
 	// 创建http get请求
 	resp, err := http.Get(url)
@@ -34,6 +34,7 @@ func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
 	// 解析http请求中body 数据到我们定义的结构体中
 	wxResp := WXLoginResp{}
 	decoder := json.NewDecoder(resp.Body)
+	fmt.Println("resp.Body: ", resp.Body)
 	if err := decoder.Decode(&wxResp); err != nil {
 		return nil, err
 	}
@@ -45,6 +46,7 @@ func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
 		Data: &api.WXLoginResp_Data{
 			OpenId:     wxResp.OpenId,
 			SessionKey: wxResp.SessionKey,
+			UnionId:    wxResp.UnionId,
 		},
 		Success:   true,
 		ErrorCode: constant.SUCCESS_ERROR_CODE,

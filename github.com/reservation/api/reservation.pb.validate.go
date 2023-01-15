@@ -1986,7 +1986,7 @@ func (m *Activity) validate(all bool) error {
 
 	// no validation rules for Price
 
-	// no validation rules for Timestamp
+	// no validation rules for Time
 
 	// no validation rules for Location
 
@@ -1997,6 +1997,10 @@ func (m *Activity) validate(all bool) error {
 	// no validation rules for Description
 
 	// no validation rules for ActivitySerial
+
+	// no validation rules for CreatedAt
+
+	// no validation rules for UpdatedAt
 
 	if len(errors) > 0 {
 		return ActivityMultiError(errors)

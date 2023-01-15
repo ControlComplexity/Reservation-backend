@@ -261,7 +261,7 @@ string name = 1;
 //价格
 float  price = 2;
 //时间戳
-int64 timestamp= 3;
+int64 time = 3;
 //
 string location = 4;
 //小图
@@ -272,6 +272,10 @@ string big_img = 6;
 string description = 7;
   //活动序列号
 string activitySerial = 8;
+//创建时间
+int64 createdAt = 9;
+//更新时间
+int64 updatedAt = 10;
 }
 
 //订单

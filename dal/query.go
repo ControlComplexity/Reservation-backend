@@ -6,11 +6,11 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"reservation/github.com/reservation/api"
 	"reservation/model"
+	"reservation/utils"
 )
 
 func Init() *gorm.DB {
-	fmt.Println("init gorm db...")
-	db, err := gorm.Open("mysql", "root:root@(127.0.0.1:3306)/reservation?charset=utf8mb4&parseTime=True&loc=Local")
+	db, err := gorm.Open("mysql", "root:root@(101.43.39.188:3306)/reservation?charset=utf8mb4&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err)
 	}
@@ -33,8 +33,15 @@ func QueryActivityList() (*api.QueryActivityListResp, error) {
 	for _, ac := range activities {
 
 		activitySlice = append(activitySlice, &api.Activity{
-			Name:  ac.Name,
-			Price: ac.Price,
+			Name:        ac.Name,
+			Price:       ac.Price,
+			Time:        utils.Time2Milli(ac.Time),
+			Location:    ac.Location,
+			SmallImg:    ac.SmallImg,
+			BigImg:      ac.BigImg,
+			Description: ac.Description,
+			CreatedAt:   utils.Time2Milli(ac.CreatedAt),
+			UpdatedAt:   utils.Time2Milli(ac.UpdatedAt),
 		})
 	}
 	return &api.QueryActivityListResp{

@@ -33,7 +33,7 @@ func InitLogger() {
 var logger *zap.Logger
 
 func RunGRPCServer(config config.Config) error {
-	fmt.Print("version32")
+	fmt.Print("version 34")
 	InitLogger()
 	interceptor := func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
 		if p, ok := req.(Validator); ok {
@@ -104,7 +104,6 @@ func RunHTTPServer(config *config.Config) error {
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")                                                                       //对于预请求来说，哪些请求方式可以用于实际的请求。
 		w.Header().Set("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type") //对于预请求来说，指明哪些头信息可以安全的暴露给 CORS API 规范的 API
 		w.Header().Set("Access-Control-Allow-Credentials", "true")                                                                                 //指明当请求中省略 creadentials 标识时响应是否暴露。对于预请求来说，它表明实际的请求中可以包含用户凭证。
-		fmt.Println("aaaaaaa")
 		//放行所有OPTIONS方法
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(200)

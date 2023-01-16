@@ -1,14 +1,36 @@
 package user
 
 import (
+	"crypto/aes"
+	"crypto/cipher"
 	"crypto/sha1"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
+	jwt "github.com/dgrijalva/jwt-go"
 	"net/http"
 	"reservation/constant"
+	"reservation/dal"
 	"reservation/github.com/reservation/api"
+	"reservation/model"
+	"strconv"
 )
+
+// CreateToken 生成 JWT
+func CreateToken(id string) string {
+	fmt.Println("CreateToken id", id)
+	mySigningKey := []byte(id)
+	// Create the Claims
+	claims := &jwt.StandardClaims{
+		ExpiresAt: 15000,
+		Issuer:    "test",
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	ss, err := token.SignedString(mySigningKey)
+	fmt.Printf("%v %v", ss, err)
+	return ss
+}
 
 type WXLoginResp struct {
 	OpenId     string `json:"openid"`
@@ -20,6 +42,9 @@ type WXLoginResp struct {
 
 // WXLogin 这个函数以 code 作为输入, 返回调用微信接口得到的对象指针和异常情况
 func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
+	db := dal.Init()
+	var user model.UserDO
+
 	url := "https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code"
 	// 合成url, 这里的appId和secret是在微信公众平台上获取的
 	url = fmt.Sprintf(url, "wx06797c8809af4258", "b0720ee70c3c1e1a152b754af8657ae8", req.Code)
@@ -34,23 +59,62 @@ func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
 	// 解析http请求中body 数据到我们定义的结构体中
 	wxResp := WXLoginResp{}
 	decoder := json.NewDecoder(resp.Body)
-	fmt.Println("resp.Body: ", resp.Body)
 	if err := decoder.Decode(&wxResp); err != nil {
 		return nil, err
 	}
+
 	// 判断微信接口返回的是否是一个异常情况
 	if wxResp.ErrCode != 0 {
 		return nil, errors.New(fmt.Sprintf("ErrCode:%s  ErrMsg:%s", wxResp.ErrCode, wxResp.ErrMsg))
 	}
-	return &api.WXLoginResp{
-		Data: &api.WXLoginResp_Data{
-			OpenId:     wxResp.OpenId,
-			SessionKey: wxResp.SessionKey,
-			UnionId:    wxResp.UnionId,
-		},
-		Success:   true,
-		ErrorCode: constant.SUCCESS_ERROR_CODE,
-	}, nil
+	encrypted, _ := base64.StdEncoding.DecodeString(req.EncryptedData)
+	keyB, _ := base64.StdEncoding.DecodeString(wxResp.SessionKey)
+	ivB, _ := base64.StdEncoding.DecodeString(req.Iv)
+	decrypted := AesDecryptCBC(encrypted, keyB, ivB)
+	returnMap := make(map[string]interface{})
+	json.Unmarshal(decrypted, &returnMap)
+	fmt.Println("returnMap:", returnMap)
+	e := db.Model(&model.UserDO{}).Where("open_id = ? ", wxResp.OpenId).Find(&user).Limit(1)
+	if e != nil {
+		return nil, e.Error
+	} else {
+		var id int64
+		if user.Name == "" && user.ID == 0 {
+			//用户不存在，MySQL中创建一个用户记录
+			db.Create(&model.UserDO{
+				Name: "jinzhu",
+			})
+			fmt.Println("创建User成功")
+		} else {
+			//用户存在，直接返回id
+			id = user.ID
+		}
+		return &api.WXLoginResp{
+			Data: &api.WXLoginResp_Data{
+				OpenId:     wxResp.OpenId,
+				SessionKey: wxResp.SessionKey,
+				UnionId:    wxResp.UnionId,
+				Token:      CreateToken(strconv.Itoa(int(id))),
+			},
+			Success:   true,
+			ErrorCode: constant.SUCCESS_ERROR_CODE,
+		}, nil
+	}
+}
+func AesDecryptCBC(encrypted []byte, key []byte, iv []byte) (decrypted []byte) {
+	block, _ := aes.NewCipher(key) // 分组秘钥
+	//blockSize := block.BlockSize()  // 获取秘钥块的长度
+	blockMode := cipher.NewCBCDecrypter(block, iv) // 加密模式
+	decrypted = make([]byte, len(encrypted))       // 创建数组
+	blockMode.CryptBlocks(decrypted, encrypted)    // 解密
+	decrypted = pkcs7UnPadding(decrypted)          // 去除补全码
+	return decrypted
+}
+
+func pkcs7UnPadding(origData []byte) []byte {
+	length := len(origData)
+	unpadding := int(origData[length-1])
+	return origData[:(length - unpadding)]
 }
 
 //// AppletWeChatLogin /wechat/applet_login?code=xxx [get]  路由

@@ -644,7 +644,7 @@
           "type": "string",
           "title": "登录时获取的 code，可通过wx.login获取"
         },
-        "env": {
+        "encryptedData": {
           "type": "string",
           "title": "云开发环境id"
         },
@@ -690,6 +690,10 @@
         "unionId": {
           "type": "string",
           "title": "用户在开放平台的唯一标识符，若当前小程序已绑定到微信开放平台帐号下会返回，详见 UnionID 机制说明。"
+        },
+        "token": {
+          "type": "string",
+          "title": "TOKEN"
         }
       }
     },

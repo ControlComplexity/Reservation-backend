@@ -115,7 +115,7 @@ message WXLoginReq{
   //登录时获取的 code，可通过wx.login获取
   string code = 1;
   //云开发环境id
-  string env = 2;
+  string encryptedData = 2;
   //加密算法的初始向量
   string iv =3;
 }
@@ -129,6 +129,8 @@ message WXLoginResp{
    string sessionKey = 2;
    //用户在开放平台的唯一标识符，若当前小程序已绑定到微信开放平台帐号下会返回，详见 UnionID 机制说明。
    string unionId = 3;
+   //TOKEN
+   string token = 4;
   }
   Data data                   = 1;
   // 是否成功访问

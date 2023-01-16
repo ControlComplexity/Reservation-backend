@@ -806,7 +806,7 @@ func (m *WXLoginReq) validate(all bool) error {
 
 	// no validation rules for Code
 
-	// no validation rules for Env
+	// no validation rules for EncryptedData
 
 	// no validation rules for Iv
 
@@ -2212,6 +2212,8 @@ func (m *WXLoginResp_Data) validate(all bool) error {
 	// no validation rules for SessionKey
 
 	// no validation rules for UnionId
+
+	// no validation rules for Token
 
 	if len(errors) > 0 {
 		return WXLoginResp_DataMultiError(errors)

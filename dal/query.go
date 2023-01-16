@@ -26,7 +26,7 @@ func GetSystemInfo() (*api.GetSystemInfoResp, error) {
 func QueryActivityList() (*api.QueryActivityListResp, error) {
 	db := Init()
 	var activities []model.ActivityDO
-	fmt.Println("db2:", db)
+
 	db.Model(&model.ActivityDO{}).Find(&activities)
 	fmt.Println("activities:", activities)
 	activitySlice := make([]*api.Activity, 0)
@@ -55,7 +55,7 @@ func QueryActivityList() (*api.QueryActivityListResp, error) {
 func QueryActivityListByDay(req *api.QueryActivityListByDayReq) (*api.QueryActivityListByDayResp, error) {
 	db := Init()
 	var activities []model.ActivityDO
-	fmt.Println("db2:", db)
+
 	db.Model(&model.ActivityDO{}).Where("time < ? ", req.Day).Where("time > ? ", req.Day).Find(&activities)
 	fmt.Println("activities:", activities)
 	activitySlice := make([]*api.Activity, 0)
@@ -77,7 +77,7 @@ func QueryActivityListByDay(req *api.QueryActivityListByDayReq) (*api.QueryActiv
 func QueryOrderList(req *api.QueryOrderListReq) (*api.QueryOrderListResp, error) {
 	db := Init()
 	var orders []api.Order
-	fmt.Println("db2:", db)
+
 	db.Model(&api.Order{}).Find(&orders)
 	fmt.Println("orders:", orders)
 	orderSlice := make([]*api.Order, 0)

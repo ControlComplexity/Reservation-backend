@@ -251,9 +251,18 @@
     "reservationActivity": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "活动ID"
+        },
         "name": {
           "type": "string",
           "title": "名称"
+        },
+        "label": {
+          "type": "string",
+          "title": "标签"
         },
         "price": {
           "type": "number",
@@ -262,7 +271,6 @@
         },
         "time": {
           "type": "string",
-          "format": "int64",
           "title": "时间戳"
         },
         "location": {

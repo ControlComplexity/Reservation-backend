@@ -36,8 +36,9 @@ func QueryActivityList() (*api.QueryActivityListResp, error) {
 
 		activitySlice = append(activitySlice, &api.Activity{
 			Name:        ac.Name,
+			Label:       ac.Label,
 			Price:       ac.Price,
-			Time:        utils.Time2Milli(ac.Time),
+			Time:        utils.Time2String(ac.Time),
 			Location:    ac.Location,
 			SmallImg:    ac.SmallImg,
 			BigImg:      ac.BigImg,

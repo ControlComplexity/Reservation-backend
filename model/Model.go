@@ -12,6 +12,7 @@ var (
 type ActivityDO struct {
 	ID          int64     `gorm:"column:id;type:serial;primaryKey;comment:自增id"`
 	Name        string    `gorm:"column:name;type:varchar(50);index;not null;default:'';comment:活动名称"`
+	Label       string    `gorm:"column:label;type:varchar(50);index;not null;default:'';comment:活动标签"`
 	Price       float32   `gorm:"column:price;type:float;index;not null;default:0;comment:价格"`
 	Location    string    `gorm:"column:location;type:varchar(50);index;not null;default:'';comment:地点"`
 	Time        time.Time `gorm:"column:time;type:timestamp;autoUpdateTime;not null;default:CURRENT_TIMESTAMP;comment:更新时间"`

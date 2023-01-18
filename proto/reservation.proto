@@ -258,26 +258,30 @@ message QueryActivityListResp{
 }
 //活动详情
 message Activity{
+//活动ID
+int64 id = 1;
   //名称
-string name = 1;
+string name = 2;
+//标签
+string label = 3;
 //价格
-float  price = 2;
+float  price = 4;
 //时间戳
-int64 time = 3;
+  string time = 5;
 //
-string location = 4;
+string location = 6;
 //小图
-string small_img = 5;
+string small_img = 7;
 // 大图
-string big_img = 6;
+string big_img = 8;
 //描述
-string description = 7;
+string description = 9;
   //活动序列号
-string activitySerial = 8;
+string activitySerial = 10;
 //创建时间
-int64 createdAt = 9;
+int64 createdAt = 11;
 //更新时间
-int64 updatedAt = 10;
+int64 updatedAt = 12;
 }
 
 //订单

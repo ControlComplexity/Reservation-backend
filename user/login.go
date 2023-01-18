@@ -103,9 +103,6 @@ func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
 	}
 	return &api.WXLoginResp{
 		Data: &api.WXLoginResp_Data{
-			//OpenId:     wxResp.OpenId,
-			//SessionKey: wxResp.SessionKey,
-			//UnionId:    wxResp.UnionId,
 			Token: CreateToken(strconv.Itoa(int(id))),
 		},
 		Success:   true,

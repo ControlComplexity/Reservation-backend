@@ -679,21 +679,9 @@
     "reservationWXLoginRespData": {
       "type": "object",
       "properties": {
-        "openId": {
-          "type": "string",
-          "title": "用户唯一标识"
-        },
-        "sessionKey": {
-          "type": "string",
-          "title": "会话密钥"
-        },
-        "unionId": {
-          "type": "string",
-          "title": "用户在开放平台的唯一标识符，若当前小程序已绑定到微信开放平台帐号下会返回，详见 UnionID 机制说明。"
-        },
         "token": {
           "type": "string",
-          "title": "TOKEN"
+          "title": "//用户唯一标识\n  string openId  = 1;\n  //会话密钥\n  string sessionKey = 2;\n  //用户在开放平台的唯一标识符，若当前小程序已绑定到微信开放平台帐号下会返回，详见 UnionID 机制说明。\n  string unionId = 3;\nTOKEN"
         }
       }
     },

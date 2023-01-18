@@ -2207,12 +2207,6 @@ func (m *WXLoginResp_Data) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for OpenId
-
-	// no validation rules for SessionKey
-
-	// no validation rules for UnionId
-
 	// no validation rules for Token
 
 	if len(errors) > 0 {

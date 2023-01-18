@@ -409,7 +409,6 @@ type WXLoginReq struct {
 
 	//登录时获取的 code，可通过wx.login获取
 	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
-	//云开发环境id
 	EncryptedData string `protobuf:"bytes,2,opt,name=encryptedData,proto3" json:"encryptedData,omitempty"`
 	//加密算法的初始向量
 	Iv string `protobuf:"bytes,3,opt,name=iv,proto3" json:"iv,omitempty"`

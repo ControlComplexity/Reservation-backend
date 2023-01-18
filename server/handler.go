@@ -15,10 +15,6 @@ func (svcImpl *apiServiceImpl) QueryActivityList(ctx context.Context, req *api.Q
 	return dal.QueryActivityList()
 }
 
-func (svcImpl *apiServiceImpl) QueryActivityListByDay(ctx context.Context, req *api.QueryActivityListByDayReq) (*api.QueryActivityListByDayResp, error) {
-	return dal.QueryActivityListByDay(req)
-}
-
 func (svcImpl *apiServiceImpl) QueryOrderList(ctx context.Context, req *api.QueryOrderListReq) (*api.QueryOrderListResp, error) {
 	return dal.QueryOrderList(req)
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"reservation/constant"
 	"reservation/github.com/reservation/api"
 	"reservation/model"
 	"reservation/utils"
@@ -19,7 +20,8 @@ func Init() *gorm.DB {
 
 func GetSystemInfo() (*api.GetSystemInfoResp, error) {
 	return &api.GetSystemInfoResp{
-		ErrorCode: "0",
+		ErrorCode: constant.SUCCESS_ERROR_CODE,
+		Success:   true,
 	}, nil
 }
 
@@ -48,30 +50,33 @@ func QueryActivityList() (*api.QueryActivityListResp, error) {
 		Data: &api.QueryActivityListResp_Data{
 			ActivityList: activitySlice,
 		},
-		ErrorCode: "0",
+		Success:   true,
+		ErrorCode: constant.SUCCESS_ERROR_CODE,
 	}, nil
 }
 
-func QueryActivityListByDay(req *api.QueryActivityListByDayReq) (*api.QueryActivityListByDayResp, error) {
-	db := Init()
-	var activities []model.ActivityDO
-
-	db.Model(&model.ActivityDO{}).Where("time < ? ", req.Day).Where("time > ? ", req.Day).Find(&activities)
-	fmt.Println("activities:", activities)
-	activitySlice := make([]*api.Activity, 0)
-	for _, ac := range activities {
-		activitySlice = append(activitySlice, &api.Activity{
-			Name:  ac.Name,
-			Price: ac.Price,
-		})
-	}
-	return &api.QueryActivityListByDayResp{
-		Data: &api.QueryActivityListByDayResp_Data{
-			ActivityList: activitySlice,
-		},
-		ErrorCode: "0",
-	}, nil
-}
+//
+//func QueryActivityListByDay(req *api.QueryActivityListByDayReq) (*api.QueryActivityListByDayResp, error) {
+//	db := Init()
+//	var activities []model.ActivityDO
+//
+//	db.Model(&model.ActivityDO{}).Where("time < ? ", req.Day).Where("time > ? ", req.Day).Find(&activities)
+//	fmt.Println("activities:", activities)
+//	activitySlice := make([]*api.Activity, 0)
+//	for _, ac := range activities {
+//		activitySlice = append(activitySlice, &api.Activity{
+//			Name:  ac.Name,
+//			Price: ac.Price,
+//		})
+//	}
+//	return &api.QueryActivityListByDayResp{
+//		Data: &api.QueryActivityListByDayResp_Data{
+//			ActivityList: activitySlice,
+//		},
+//		Success:   true,
+//		ErrorCode: constant.SUCCESS_ERROR_CODE,
+//	}, nil
+//}
 
 // 查询订单
 func QueryOrderList(req *api.QueryOrderListReq) (*api.QueryOrderListResp, error) {
@@ -88,7 +93,8 @@ func QueryOrderList(req *api.QueryOrderListReq) (*api.QueryOrderListResp, error)
 		Data: &api.QueryOrderListResp_Data{
 			OrderList: orderSlice,
 		},
-		ErrorCode: "0",
+		ErrorCode: constant.SUCCESS_ERROR_CODE,
+		Success:   true,
 	}, nil
 }
 

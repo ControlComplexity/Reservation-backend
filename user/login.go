@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	jwt "github.com/dgrijalva/jwt-go"
+	"go.uber.org/zap"
 	"net/http"
 	"reservation/constant"
 	"reservation/dal"
@@ -16,6 +17,13 @@ import (
 	"reservation/model"
 	"strconv"
 )
+
+func InitLogger() {
+	// 通过 zap.NewProduction() 创建一个 logger
+	logger, _ = zap.NewProduction()
+}
+
+var logger *zap.Logger
 
 // CreateToken 生成 JWT
 func CreateToken(id string) string {
@@ -73,41 +81,45 @@ func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
 	decrypted := AesDecryptCBC(encrypted, keyB, ivB)
 	returnMap := make(map[string]interface{})
 	json.Unmarshal(decrypted, &returnMap)
-	fmt.Println("returnMap:", returnMap)
+	fmt.Println("returnMap:", returnMap, " wxResp.OpenId: ", wxResp.OpenId)
 	e := db.Model(&model.UserDO{}).Where("open_id = ? ", wxResp.OpenId).Find(&user).Limit(1)
-	if e != nil {
-		return nil, e.Error
-	} else {
-		var id int64
-		if user.Name == "" && user.ID == 0 {
-			//用户不存在，MySQL中创建一个用户记录
-			db.Create(&model.UserDO{
-				Name: "jinzhu",
-			})
-			fmt.Println("创建User成功")
-		} else {
-			//用户存在，直接返回id
-			id = user.ID
+	var id int64
+	if e.Error != nil {
+		fmt.Println("failed to get record by openId: ", e.Error.Error())
+		//用户不存在，MySQL中创建一个用户记录
+
+		user := model.UserDO{
+			Name:        "jinzhu",
+			NickName:    "sdsdfds",
+			PhoneNumber: 13166661111,
+			OpenID:      wxResp.OpenId,
 		}
-		return &api.WXLoginResp{
-			Data: &api.WXLoginResp_Data{
-				OpenId:     wxResp.OpenId,
-				SessionKey: wxResp.SessionKey,
-				UnionId:    wxResp.UnionId,
-				Token:      CreateToken(strconv.Itoa(int(id))),
-			},
-			Success:   true,
-			ErrorCode: constant.SUCCESS_ERROR_CODE,
-		}, nil
+		db.Create(&user)
+		id = user.ID
+		fmt.Println("创建User成功, id: ", id)
+	} else {
+		//用户存在，直接返回id
+		id = user.ID
 	}
+	return &api.WXLoginResp{
+		Data: &api.WXLoginResp_Data{
+			//OpenId:     wxResp.OpenId,
+			//SessionKey: wxResp.SessionKey,
+			//UnionId:    wxResp.UnionId,
+			Token: CreateToken(strconv.Itoa(int(id))),
+		},
+		Success:   true,
+		ErrorCode: constant.SUCCESS_ERROR_CODE,
+	}, nil
 }
 func AesDecryptCBC(encrypted []byte, key []byte, iv []byte) (decrypted []byte) {
 	block, _ := aes.NewCipher(key) // 分组秘钥
 	//blockSize := block.BlockSize()  // 获取秘钥块的长度
 	blockMode := cipher.NewCBCDecrypter(block, iv) // 加密模式
 	decrypted = make([]byte, len(encrypted))       // 创建数组
-	blockMode.CryptBlocks(decrypted, encrypted)    // 解密
-	decrypted = pkcs7UnPadding(decrypted)          // 去除补全码
+	fmt.Println("len(encrypted): ", len(encrypted), " encrypted: ", string(encrypted), " key: ", string(key), " iv: ", iv)
+	blockMode.CryptBlocks(decrypted, encrypted) // 解密
+	decrypted = pkcs7UnPadding(decrypted)       // 去除补全码
 	return decrypted
 }
 

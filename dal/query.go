@@ -54,6 +54,25 @@ func QueryActivityInfo(req *api.QueryActivityInfoReq) (*api.QueryActivityInfoRes
 	}, nil
 }
 
+func JoinActivity(req *api.JoinActivityReq) (*api.JoinActivityResp, error) {
+	db := Init()
+	var ac model.ActivityDO
+	e := db.Model(&model.ActivityDO{}).Where("activity_id = ? ", req.Id).Find(&ac).Limit(1)
+	fmt.Println("ac:", ac)
+	if e.Error != nil {
+		return &api.JoinActivityResp{
+			Success:   false,
+			ErrorCode: constant.RECORD_NOT_FOUND,
+			ErrorMsg:  "failed to join activity, " + e.Error.Error(),
+		}, nil
+	}
+	return &api.JoinActivityResp{
+		Price:     ac.Price,
+		Success:   true,
+		ErrorCode: constant.SUCCESS_ERROR_CODE,
+	}, nil
+}
+
 func QueryActivityList() (*api.QueryActivityListResp, error) {
 	db := Init()
 	var activities []model.ActivityDO

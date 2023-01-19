@@ -32,6 +32,8 @@ type ReservationServiceClient interface {
 	GenerateMBTI(ctx context.Context, in *GenerateMBTIReq, opts ...grpc.CallOption) (*GenerateMBTIResp, error)
 	//查询某人的MBTI结果
 	QueryMBTI(ctx context.Context, in *QueryMBTIReq, opts ...grpc.CallOption) (*QueryMBTIResp, error)
+	//参加活动生成订单
+	JoinActivity(ctx context.Context, in *JoinActivityReq, opts ...grpc.CallOption) (*JoinActivityResp, error)
 	//查询订单接口
 	QueryOrderList(ctx context.Context, in *QueryOrderListReq, opts ...grpc.CallOption) (*QueryOrderListResp, error)
 	//查询活动信息
@@ -95,6 +97,15 @@ func (c *reservationServiceClient) QueryMBTI(ctx context.Context, in *QueryMBTIR
 	return out, nil
 }
 
+func (c *reservationServiceClient) JoinActivity(ctx context.Context, in *JoinActivityReq, opts ...grpc.CallOption) (*JoinActivityResp, error) {
+	out := new(JoinActivityResp)
+	err := c.cc.Invoke(ctx, "/reservation.ReservationService/JoinActivity", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *reservationServiceClient) QueryOrderList(ctx context.Context, in *QueryOrderListReq, opts ...grpc.CallOption) (*QueryOrderListResp, error) {
 	out := new(QueryOrderListResp)
 	err := c.cc.Invoke(ctx, "/reservation.ReservationService/QueryOrderList", in, out, opts...)
@@ -145,6 +156,8 @@ type ReservationServiceServer interface {
 	GenerateMBTI(context.Context, *GenerateMBTIReq) (*GenerateMBTIResp, error)
 	//查询某人的MBTI结果
 	QueryMBTI(context.Context, *QueryMBTIReq) (*QueryMBTIResp, error)
+	//参加活动生成订单
+	JoinActivity(context.Context, *JoinActivityReq) (*JoinActivityResp, error)
 	//查询订单接口
 	QueryOrderList(context.Context, *QueryOrderListReq) (*QueryOrderListResp, error)
 	//查询活动信息
@@ -174,6 +187,9 @@ func (UnimplementedReservationServiceServer) GenerateMBTI(context.Context, *Gene
 }
 func (UnimplementedReservationServiceServer) QueryMBTI(context.Context, *QueryMBTIReq) (*QueryMBTIResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryMBTI not implemented")
+}
+func (UnimplementedReservationServiceServer) JoinActivity(context.Context, *JoinActivityReq) (*JoinActivityResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JoinActivity not implemented")
 }
 func (UnimplementedReservationServiceServer) QueryOrderList(context.Context, *QueryOrderListReq) (*QueryOrderListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryOrderList not implemented")
@@ -290,6 +306,24 @@ func _ReservationService_QueryMBTI_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReservationService_JoinActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JoinActivityReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).JoinActivity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/reservation.ReservationService/JoinActivity",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).JoinActivity(ctx, req.(*JoinActivityReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ReservationService_QueryOrderList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryOrderListReq)
 	if err := dec(in); err != nil {
@@ -388,6 +422,10 @@ var ReservationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "QueryMBTI",
 			Handler:    _ReservationService_QueryMBTI_Handler,
+		},
+		{
+			MethodName: "JoinActivity",
+			Handler:    _ReservationService_JoinActivity_Handler,
 		},
 		{
 			MethodName: "QueryOrderList",

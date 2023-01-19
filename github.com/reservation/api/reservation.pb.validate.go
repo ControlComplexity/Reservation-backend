@@ -35,6 +35,216 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on JoinActivityReq with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *JoinActivityReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on JoinActivityReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// JoinActivityReqMultiError, or nil if none found.
+func (m *JoinActivityReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *JoinActivityReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return JoinActivityReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// JoinActivityReqMultiError is an error wrapping multiple validation errors
+// returned by JoinActivityReq.ValidateAll() if the designated constraints
+// aren't met.
+type JoinActivityReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m JoinActivityReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m JoinActivityReqMultiError) AllErrors() []error { return m }
+
+// JoinActivityReqValidationError is the validation error returned by
+// JoinActivityReq.Validate if the designated constraints aren't met.
+type JoinActivityReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e JoinActivityReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e JoinActivityReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e JoinActivityReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e JoinActivityReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e JoinActivityReqValidationError) ErrorName() string { return "JoinActivityReqValidationError" }
+
+// Error satisfies the builtin error interface
+func (e JoinActivityReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sJoinActivityReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = JoinActivityReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = JoinActivityReqValidationError{}
+
+// Validate checks the field values on JoinActivityResp with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *JoinActivityResp) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on JoinActivityResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// JoinActivityRespMultiError, or nil if none found.
+func (m *JoinActivityResp) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *JoinActivityResp) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Price
+
+	// no validation rules for Success
+
+	// no validation rules for ErrorCode
+
+	// no validation rules for ErrorMsg
+
+	if len(errors) > 0 {
+		return JoinActivityRespMultiError(errors)
+	}
+
+	return nil
+}
+
+// JoinActivityRespMultiError is an error wrapping multiple validation errors
+// returned by JoinActivityResp.ValidateAll() if the designated constraints
+// aren't met.
+type JoinActivityRespMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m JoinActivityRespMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m JoinActivityRespMultiError) AllErrors() []error { return m }
+
+// JoinActivityRespValidationError is the validation error returned by
+// JoinActivityResp.Validate if the designated constraints aren't met.
+type JoinActivityRespValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e JoinActivityRespValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e JoinActivityRespValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e JoinActivityRespValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e JoinActivityRespValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e JoinActivityRespValidationError) ErrorName() string { return "JoinActivityRespValidationError" }
+
+// Error satisfies the builtin error interface
+func (e JoinActivityRespValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sJoinActivityResp.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = JoinActivityRespValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = JoinActivityRespValidationError{}
+
 // Validate checks the field values on QueryActivityInfoReq with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.

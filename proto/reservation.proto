@@ -37,6 +37,13 @@ service ReservationService {
   rpc QueryMBTI(QueryMBTIReq) returns (QueryMBTIResp){
 
   }
+  //参加活动生成订单
+  rpc JoinActivity(JoinActivityReq) returns (JoinActivityResp){
+    option (google.api.http) = {
+      post: "/v1/activity/join"
+      body: "*"
+    };
+  }
 
   //查询订单接口
   rpc QueryOrderList (QueryOrderListReq)returns (QueryOrderListResp){
@@ -66,6 +73,26 @@ service ReservationService {
     };
   }
 }
+
+//参加活动请求
+message JoinActivityReq{
+  //活动id
+  int64 id = 1;
+}
+
+//参加活动请求
+message JoinActivityResp{
+  //活动价格
+   float price           = 1;
+  // 是否成功访问
+  bool success                = 2;
+  // 错误码
+  string errorCode            = 3;
+  // 错误详情
+  string errorMsg             = 4;
+}
+
+
 //查询活动详情请求
 message QueryActivityInfoReq{
  //活动id

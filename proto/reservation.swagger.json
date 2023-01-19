@@ -16,6 +16,39 @@
     "application/json"
   ],
   "paths": {
+    "/v1/activity/join": {
+      "post": {
+        "summary": "参加活动生成订单",
+        "operationId": "ReservationService_JoinActivity",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationJoinActivityResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reservationJoinActivityReq"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
     "/v1/get_system_info": {
       "get": {
         "summary": "获取预约系统状态信息.",
@@ -379,6 +412,40 @@
         }
       },
       "description": "GetSystemInfoResp 表示获取系统信息响应."
+    },
+    "reservationJoinActivityReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "活动id"
+        }
+      },
+      "title": "参加活动请求"
+    },
+    "reservationJoinActivityResp": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number",
+          "format": "float",
+          "title": "活动价格"
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功访问"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      },
+      "title": "参加活动请求"
     },
     "reservationMBTIResult": {
       "type": "object",

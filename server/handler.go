@@ -19,6 +19,10 @@ func (svcImpl *apiServiceImpl) QueryActivityInfo(ctx context.Context, req *api.Q
 	return dal.QueryActivityInfo(req)
 }
 
+func (svcImpl *apiServiceImpl) JoinActivity(ctx context.Context, req *api.JoinActivityReq) (*api.JoinActivityResp, error) {
+	return dal.JoinActivity(req)
+}
+
 func (svcImpl *apiServiceImpl) QueryOrderList(ctx context.Context, req *api.QueryOrderListReq) (*api.QueryOrderListResp, error) {
 	return dal.QueryOrderList(req)
 }

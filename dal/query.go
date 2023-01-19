@@ -8,6 +8,7 @@ import (
 	"reservation/github.com/reservation/api"
 	"reservation/model"
 	"reservation/utils"
+	"strings"
 )
 
 func Init() *gorm.DB {
@@ -30,9 +31,11 @@ func QueryActivityInfo(req *api.QueryActivityInfoReq) (*api.QueryActivityInfoRes
 	var ac model.ActivityDO
 	db.Model(&model.ActivityDO{}).Where("activity_id = ? ", req.Id).Find(&ac).Limit(1)
 	fmt.Println("ac:", ac)
+
 	activity := api.Activity{
+		Id:          ac.ID,
 		Name:        ac.Name,
-		Label:       ac.Label,
+		Label:       strings.Split(ac.Label, ","),
 		Price:       ac.Price,
 		Time:        utils.Time2String(ac.Time),
 		Location:    ac.Location,
@@ -42,8 +45,10 @@ func QueryActivityInfo(req *api.QueryActivityInfoReq) (*api.QueryActivityInfoRes
 		CreatedAt:   utils.Time2Milli(ac.CreatedAt),
 		UpdatedAt:   utils.Time2Milli(ac.UpdatedAt),
 	}
+	//activities := make([]*api.Activity, 0)
+	//activities = append(activities, &activity)
 	return &api.QueryActivityInfoResp{
-		Activity:  &activity,
+		Data:      &activity,
 		Success:   true,
 		ErrorCode: constant.SUCCESS_ERROR_CODE,
 	}, nil
@@ -59,8 +64,9 @@ func QueryActivityList() (*api.QueryActivityListResp, error) {
 	for _, ac := range activities {
 
 		activitySlice = append(activitySlice, &api.Activity{
+			Id:          ac.ID,
 			Name:        ac.Name,
-			Label:       ac.Label,
+			Label:       strings.Split(ac.Label, ","),
 			Price:       ac.Price,
 			Time:        utils.Time2String(ac.Time),
 			Location:    ac.Location,

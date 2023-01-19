@@ -162,11 +162,11 @@ func (m *QueryActivityInfoResp) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetActivity()).(type) {
+		switch v := interface{}(m.GetData()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, QueryActivityInfoRespValidationError{
-					field:  "Activity",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -174,16 +174,16 @@ func (m *QueryActivityInfoResp) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, QueryActivityInfoRespValidationError{
-					field:  "Activity",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetActivity()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return QueryActivityInfoRespValidationError{
-				field:  "Activity",
+				field:  "Data",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -2226,8 +2226,6 @@ func (m *Activity) validate(all bool) error {
 	// no validation rules for Id
 
 	// no validation rules for Name
-
-	// no validation rules for Label
 
 	// no validation rules for Price
 

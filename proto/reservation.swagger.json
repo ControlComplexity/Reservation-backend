@@ -294,7 +294,10 @@
           "title": "名称"
         },
         "label": {
-          "type": "string",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
           "title": "标签"
         },
         "price": {
@@ -428,7 +431,7 @@
     "reservationQueryActivityInfoResp": {
       "type": "object",
       "properties": {
-        "activity": {
+        "data": {
           "$ref": "#/definitions/reservationActivity"
         },
         "success": {

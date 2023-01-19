@@ -25,6 +25,30 @@ func GetSystemInfo() (*api.GetSystemInfoResp, error) {
 	}, nil
 }
 
+func QueryActivityInfo(req *api.QueryActivityInfoReq) (*api.QueryActivityInfoResp, error) {
+	db := Init()
+	var ac model.ActivityDO
+	db.Model(&model.ActivityDO{}).Where("activity_id = ? ", req.Id).Find(&ac).Limit(1)
+	fmt.Println("ac:", ac)
+	activity := api.Activity{
+		Name:        ac.Name,
+		Label:       ac.Label,
+		Price:       ac.Price,
+		Time:        utils.Time2String(ac.Time),
+		Location:    ac.Location,
+		SmallImg:    ac.SmallImg,
+		BigImg:      ac.BigImg,
+		Description: ac.Description,
+		CreatedAt:   utils.Time2Milli(ac.CreatedAt),
+		UpdatedAt:   utils.Time2Milli(ac.UpdatedAt),
+	}
+	return &api.QueryActivityInfoResp{
+		Activity:  &activity,
+		Success:   true,
+		ErrorCode: constant.SUCCESS_ERROR_CODE,
+	}, nil
+}
+
 func QueryActivityList() (*api.QueryActivityListResp, error) {
 	db := Init()
 	var activities []model.ActivityDO

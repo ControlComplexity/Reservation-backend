@@ -45,7 +45,12 @@ service ReservationService {
       body: "*"
     };
   }
-
+  //查询活动信息
+  rpc QueryActivityInfo (QueryActivityInfoReq)returns (QueryActivityInfoResp){
+    option (google.api.http) = {
+      get: "/v1/query/activity/{id}"
+    };
+  }
   // 获取全部可参加的活动列表
   rpc QueryActivityList(QueryActivityListReq) returns (QueryActivityListResp) {
     option (google.api.http) = {
@@ -61,6 +66,22 @@ service ReservationService {
     };
   }
 }
+//查询活动详情请求
+message QueryActivityInfoReq{
+ //活动id
+  int32 id = 1;
+}
+
+message QueryActivityInfoResp{
+  Activity activity           = 1;
+  // 是否成功访问
+  bool success                = 2;
+  // 错误码
+  string errorCode            = 3;
+  // 错误详情
+  string errorMsg             = 4;
+}
+
 //查询MBTI请求
 message QueryMBTIReq{
   //用户UUID

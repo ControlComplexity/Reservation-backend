@@ -34,6 +34,8 @@ type ReservationServiceClient interface {
 	QueryMBTI(ctx context.Context, in *QueryMBTIReq, opts ...grpc.CallOption) (*QueryMBTIResp, error)
 	//查询订单接口
 	QueryOrderList(ctx context.Context, in *QueryOrderListReq, opts ...grpc.CallOption) (*QueryOrderListResp, error)
+	//查询活动信息
+	QueryActivityInfo(ctx context.Context, in *QueryActivityInfoReq, opts ...grpc.CallOption) (*QueryActivityInfoResp, error)
 	// 获取全部可参加的活动列表
 	QueryActivityList(ctx context.Context, in *QueryActivityListReq, opts ...grpc.CallOption) (*QueryActivityListResp, error)
 	// 获取某一天的可参加的活动列表
@@ -102,6 +104,15 @@ func (c *reservationServiceClient) QueryOrderList(ctx context.Context, in *Query
 	return out, nil
 }
 
+func (c *reservationServiceClient) QueryActivityInfo(ctx context.Context, in *QueryActivityInfoReq, opts ...grpc.CallOption) (*QueryActivityInfoResp, error) {
+	out := new(QueryActivityInfoResp)
+	err := c.cc.Invoke(ctx, "/reservation.ReservationService/QueryActivityInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *reservationServiceClient) QueryActivityList(ctx context.Context, in *QueryActivityListReq, opts ...grpc.CallOption) (*QueryActivityListResp, error) {
 	out := new(QueryActivityListResp)
 	err := c.cc.Invoke(ctx, "/reservation.ReservationService/QueryActivityList", in, out, opts...)
@@ -136,6 +147,8 @@ type ReservationServiceServer interface {
 	QueryMBTI(context.Context, *QueryMBTIReq) (*QueryMBTIResp, error)
 	//查询订单接口
 	QueryOrderList(context.Context, *QueryOrderListReq) (*QueryOrderListResp, error)
+	//查询活动信息
+	QueryActivityInfo(context.Context, *QueryActivityInfoReq) (*QueryActivityInfoResp, error)
 	// 获取全部可参加的活动列表
 	QueryActivityList(context.Context, *QueryActivityListReq) (*QueryActivityListResp, error)
 	// 获取某一天的可参加的活动列表
@@ -164,6 +177,9 @@ func (UnimplementedReservationServiceServer) QueryMBTI(context.Context, *QueryMB
 }
 func (UnimplementedReservationServiceServer) QueryOrderList(context.Context, *QueryOrderListReq) (*QueryOrderListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryOrderList not implemented")
+}
+func (UnimplementedReservationServiceServer) QueryActivityInfo(context.Context, *QueryActivityInfoReq) (*QueryActivityInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryActivityInfo not implemented")
 }
 func (UnimplementedReservationServiceServer) QueryActivityList(context.Context, *QueryActivityListReq) (*QueryActivityListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryActivityList not implemented")
@@ -292,6 +308,24 @@ func _ReservationService_QueryOrderList_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReservationService_QueryActivityInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryActivityInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).QueryActivityInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/reservation.ReservationService/QueryActivityInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).QueryActivityInfo(ctx, req.(*QueryActivityInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ReservationService_QueryActivityList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryActivityListReq)
 	if err := dec(in); err != nil {
@@ -358,6 +392,10 @@ var ReservationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "QueryOrderList",
 			Handler:    _ReservationService_QueryOrderList_Handler,
+		},
+		{
+			MethodName: "QueryActivityInfo",
+			Handler:    _ReservationService_QueryActivityInfo_Handler,
 		},
 		{
 			MethodName: "QueryActivityList",

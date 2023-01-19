@@ -35,6 +35,247 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on QueryActivityInfoReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QueryActivityInfoReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryActivityInfoReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QueryActivityInfoReqMultiError, or nil if none found.
+func (m *QueryActivityInfoReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryActivityInfoReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if len(errors) > 0 {
+		return QueryActivityInfoReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryActivityInfoReqMultiError is an error wrapping multiple validation
+// errors returned by QueryActivityInfoReq.ValidateAll() if the designated
+// constraints aren't met.
+type QueryActivityInfoReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryActivityInfoReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryActivityInfoReqMultiError) AllErrors() []error { return m }
+
+// QueryActivityInfoReqValidationError is the validation error returned by
+// QueryActivityInfoReq.Validate if the designated constraints aren't met.
+type QueryActivityInfoReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryActivityInfoReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryActivityInfoReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryActivityInfoReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryActivityInfoReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryActivityInfoReqValidationError) ErrorName() string {
+	return "QueryActivityInfoReqValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QueryActivityInfoReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryActivityInfoReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryActivityInfoReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryActivityInfoReqValidationError{}
+
+// Validate checks the field values on QueryActivityInfoResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QueryActivityInfoResp) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryActivityInfoResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QueryActivityInfoRespMultiError, or nil if none found.
+func (m *QueryActivityInfoResp) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryActivityInfoResp) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetActivity()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, QueryActivityInfoRespValidationError{
+					field:  "Activity",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, QueryActivityInfoRespValidationError{
+					field:  "Activity",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetActivity()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return QueryActivityInfoRespValidationError{
+				field:  "Activity",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Success
+
+	// no validation rules for ErrorCode
+
+	// no validation rules for ErrorMsg
+
+	if len(errors) > 0 {
+		return QueryActivityInfoRespMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryActivityInfoRespMultiError is an error wrapping multiple validation
+// errors returned by QueryActivityInfoResp.ValidateAll() if the designated
+// constraints aren't met.
+type QueryActivityInfoRespMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryActivityInfoRespMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryActivityInfoRespMultiError) AllErrors() []error { return m }
+
+// QueryActivityInfoRespValidationError is the validation error returned by
+// QueryActivityInfoResp.Validate if the designated constraints aren't met.
+type QueryActivityInfoRespValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryActivityInfoRespValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryActivityInfoRespValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryActivityInfoRespValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryActivityInfoRespValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryActivityInfoRespValidationError) ErrorName() string {
+	return "QueryActivityInfoRespValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QueryActivityInfoRespValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryActivityInfoResp.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryActivityInfoRespValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryActivityInfoRespValidationError{}
+
 // Validate checks the field values on QueryMBTIReq with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.

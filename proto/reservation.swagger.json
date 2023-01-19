@@ -39,6 +39,39 @@
         ]
       }
     },
+    "/v1/query/activity/{id}": {
+      "get": {
+        "summary": "查询活动信息",
+        "operationId": "ReservationService_QueryActivityInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationQueryActivityInfoResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "活动id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
     "/v1/query/activity_list": {
       "post": {
         "summary": "获取全部可参加的活动列表",
@@ -391,6 +424,26 @@
         }
       },
       "title": "订单"
+    },
+    "reservationQueryActivityInfoResp": {
+      "type": "object",
+      "properties": {
+        "activity": {
+          "$ref": "#/definitions/reservationActivity"
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功访问"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      }
     },
     "reservationQueryActivityListByDayReq": {
       "type": "object",

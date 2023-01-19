@@ -204,6 +204,72 @@
         ]
       }
     },
+    "/v1/query/user/{id}": {
+      "get": {
+        "summary": "查询用户信息",
+        "operationId": "ReservationService_QueryUserInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationQueryUserInfoResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "用户id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
+    "/v1/user/edit": {
+      "post": {
+        "summary": "用户注册",
+        "operationId": "ReservationService_EditUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationEditUserResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reservationEditUserReq"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
     "/v1/user/generate_mbti": {
       "post": {
         "summary": "生成MBTI",
@@ -373,6 +439,108 @@
         }
       },
       "title": "活动详情"
+    },
+    "reservationEditUserReq": {
+      "type": "object",
+      "properties": {
+        "nickName": {
+          "type": "string",
+          "title": "昵称"
+        },
+        "gender": {
+          "$ref": "#/definitions/reservationGender",
+          "title": "性别"
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32",
+          "title": "身高"
+        },
+        "weight": {
+          "type": "integer",
+          "format": "int32",
+          "title": "体重"
+        },
+        "hometown": {
+          "type": "string",
+          "title": "家乡"
+        },
+        "place": {
+          "type": "string",
+          "title": "所在地"
+        },
+        "emotionalStatus": {
+          "$ref": "#/definitions/reservationEmotionalStatus",
+          "title": "感情状态"
+        },
+        "education": {
+          "$ref": "#/definitions/reservationEducation",
+          "title": "最高学历"
+        },
+        "university": {
+          "type": "string",
+          "title": "毕业（在读）院校"
+        },
+        "company": {
+          "type": "string",
+          "title": "公司"
+        },
+        "wechatNumber": {
+          "type": "string",
+          "title": "微信号"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "title": "手机号"
+        }
+      },
+      "title": "用户编辑请求"
+    },
+    "reservationEditUserResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "title": "是否成功编辑"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      },
+      "title": "用户编辑返回"
+    },
+    "reservationEducation": {
+      "type": "string",
+      "enum": [
+        "BENKE"
+      ],
+      "default": "BENKE",
+      "title": "- BENKE: 高考统招本科"
+    },
+    "reservationEmotionalStatus": {
+      "type": "string",
+      "enum": [
+        "SINGLE_NOT_MARRIED",
+        "SINGLE_DIVORCED"
+      ],
+      "default": "SINGLE_NOT_MARRIED",
+      "description": "- SINGLE_NOT_MARRIED: 单身且无婚史\n - SINGLE_DIVORCED: 单身且离异",
+      "title": "感情状态"
+    },
+    "reservationGender": {
+      "type": "string",
+      "enum": [
+        "MALE",
+        "FEMALE"
+      ],
+      "default": "MALE",
+      "description": "- MALE: 男性\n - FEMALE: 女性",
+      "title": "性别"
     },
     "reservationGenerateMBTIReq": {
       "type": "object"
@@ -748,6 +916,28 @@
       },
       "title": "活动列表数据"
     },
+    "reservationQueryUserInfoResp": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/reservationUser",
+          "title": "用户数据"
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功访问"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      },
+      "title": "查询用户信息返回"
+    },
     "reservationRegisterReq": {
       "type": "object"
     },
@@ -767,6 +957,67 @@
           "title": "错误详情"
         }
       }
+    },
+    "reservationUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "活动ID"
+        },
+        "nickName": {
+          "type": "string",
+          "title": "昵称"
+        },
+        "gender": {
+          "$ref": "#/definitions/reservationGender",
+          "title": "性别"
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32",
+          "title": "身高"
+        },
+        "weight": {
+          "type": "integer",
+          "format": "int32",
+          "title": "体重"
+        },
+        "hometown": {
+          "type": "string",
+          "title": "家乡"
+        },
+        "place": {
+          "type": "string",
+          "title": "所在地"
+        },
+        "emotionalStatus": {
+          "$ref": "#/definitions/reservationEmotionalStatus",
+          "title": "感情状态"
+        },
+        "education": {
+          "$ref": "#/definitions/reservationEducation",
+          "title": "最高学历"
+        },
+        "university": {
+          "type": "string",
+          "title": "毕业（在读）院校"
+        },
+        "company": {
+          "type": "string",
+          "title": "公司"
+        },
+        "wechatNumber": {
+          "type": "string",
+          "title": "微信号"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "title": "手机号"
+        }
+      },
+      "title": "用户详情"
     },
     "reservationWXLoginReq": {
       "type": "object",

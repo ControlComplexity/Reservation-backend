@@ -27,8 +27,16 @@ func (svcImpl *apiServiceImpl) QueryOrderList(ctx context.Context, req *api.Quer
 	return dal.QueryOrderList(req)
 }
 
+func (svcImpl *apiServiceImpl) EditUser(ctx context.Context, req *api.EditUserReq) (*api.EditUserResp, error) {
+	return user.EditUser(req)
+}
+
+func (svcImpl *apiServiceImpl) QueryUserInfo(ctx context.Context, req *api.QueryUserInfoReq) (*api.QueryUserInfoResp, error) {
+	return user.QueryUserInfo(req)
+}
+
 func (svcImpl *apiServiceImpl) Register(ctx context.Context, req *api.RegisterReq) (*api.RegisterResp, error) {
-	return dal.Register(req)
+	return user.Register(req)
 }
 
 // WXLogin 微信登陆接口

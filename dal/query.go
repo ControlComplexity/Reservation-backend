@@ -147,7 +147,3 @@ func QueryOrderList(req *api.QueryOrderListReq) (*api.QueryOrderListResp, error)
 		Success:   true,
 	}, nil
 }
-
-func Register(req *api.RegisterReq) (*api.RegisterResp, error) {
-	return nil, nil
-}

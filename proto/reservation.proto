@@ -10,14 +10,28 @@ service ReservationService {
       get: "/v1/get_system_info"
     };
   }
- //用户注册
+  //用户注册
   rpc Register (RegisterReq)returns (RegisterResp){
     option (google.api.http) = {
       post: "/v1/user/register"
       body: "*"
     };
   }
- //微信登录
+
+  //用户注册
+  rpc EditUser (EditUserReq)returns (EditUserResp){
+    option (google.api.http) = {
+      post: "/v1/user/edit"
+      body: "*"
+    };
+  }
+  //查询用户信息
+  rpc QueryUserInfo (QueryUserInfoReq)returns (QueryUserInfoResp){
+    option (google.api.http) = {
+      get: "/v1/query/user/{id}"
+    };
+  }
+  //微信登录
   rpc WXLogin (WXLoginReq)returns (WXLoginResp){
     option (google.api.http) = {
       post: "/v1/user/wx_login"
@@ -25,7 +39,7 @@ service ReservationService {
     };
   }
 
- //生成MBTI
+  //生成MBTI
   rpc GenerateMBTI (GenerateMBTIReq)returns (GenerateMBTIResp){
     option (google.api.http) = {
       post: "/v1/user/generate_mbti"
@@ -37,6 +51,7 @@ service ReservationService {
   rpc QueryMBTI(QueryMBTIReq) returns (QueryMBTIResp){
 
   }
+
   //参加活动生成订单
   rpc JoinActivity(JoinActivityReq) returns (JoinActivityResp){
     option (google.api.http) = {
@@ -74,6 +89,46 @@ service ReservationService {
   }
 }
 
+//用户编辑请求
+message EditUserReq{
+  // 昵称
+  string nickName = 2;
+  //性别
+  Gender gender = 3;
+  //身高
+  int32  height = 4;
+  //体重
+  int32 weight = 5;
+  //家乡
+  string hometown = 6;
+  //所在地
+  string place = 7;
+  //感情状态
+  EmotionalStatus emotionalStatus = 8;
+  //最高学历
+  Education education = 9;
+  //毕业（在读）院校
+  string university = 10;
+  //公司
+  string company = 11;
+  //微信号
+  string wechatNumber = 12;
+  //手机号
+  string phoneNumber = 13;
+}
+
+//用户编辑返回
+message EditUserResp{
+  // 是否成功编辑
+  bool success = 1;
+  // 错误码
+  string errorCode = 2;
+  // 错误详情
+  string errorMsg = 3;
+}
+
+
+
 //参加活动请求
 message JoinActivityReq{
   //活动id
@@ -83,30 +138,45 @@ message JoinActivityReq{
 //参加活动请求
 message JoinActivityResp{
   //活动价格
-   float price           = 1;
+  float price = 1;
   // 是否成功访问
-  bool success                = 2;
+  bool success = 2;
   // 错误码
-  string errorCode            = 3;
+  string errorCode = 3;
   // 错误详情
-  string errorMsg             = 4;
+  string errorMsg = 4;
 }
-
+//查询用户信息请求
+message QueryUserInfoReq{
+  //用户id
+  int32 id = 1;
+}
+//查询用户信息返回
+message QueryUserInfoResp{
+  //用户数据
+  User data = 1;
+  // 是否成功访问
+  bool success = 2;
+  // 错误码
+  string errorCode = 3;
+  // 错误详情
+  string errorMsg = 4;
+}
 
 //查询活动详情请求
 message QueryActivityInfoReq{
- //活动id
+  //活动id
   int32 id = 1;
 }
 
 message QueryActivityInfoResp{
-  Activity data           = 1;
+  Activity data = 1;
   // 是否成功访问
-  bool success                = 2;
+  bool success = 2;
   // 错误码
-  string errorCode            = 3;
+  string errorCode = 3;
   // 错误详情
-  string errorMsg             = 4;
+  string errorMsg = 4;
 }
 
 //查询MBTI请求
@@ -117,13 +187,13 @@ message QueryMBTIReq{
 //查询MBTI返回
 message QueryMBTIResp{
   //MBTI数据
-  MBTIResult data                   = 1;
+  MBTIResult data = 1;
   // 是否成功注册
-  bool success                = 2;
+  bool success = 2;
   // 错误码
-  string errorCode            = 3;
+  string errorCode = 3;
   // 错误详情
-  string errorMsg             = 4;
+  string errorMsg = 4;
 }
 
 message MBTIResult{
@@ -151,11 +221,11 @@ message RegisterReq{
 
 message RegisterResp{
   // 是否成功注册
-  bool success                 = 8;
+  bool success = 8;
   // 错误码
-  string errorCode            = 9;
+  string errorCode = 9;
   // 错误详情
-  string errorMsg             = 10;
+  string errorMsg = 10;
 }
 
 //微信登录请求
@@ -165,28 +235,28 @@ message WXLoginReq{
   //云开发环境id
   string encryptedData = 2;
   //加密算法的初始向量
-  string iv =3;
+  string iv = 3;
 }
 
 //微信登录返回
 message WXLoginResp{
   message Data{
-//    //用户唯一标识
-//   string openId  = 1;
-//   //会话密钥
-//   string sessionKey = 2;
-//   //用户在开放平台的唯一标识符，若当前小程序已绑定到微信开放平台帐号下会返回，详见 UnionID 机制说明。
-//   string unionId = 3;
-   //TOKEN
-   string token = 1;
+    //    //用户唯一标识
+    //   string openId  = 1;
+    //   //会话密钥
+    //   string sessionKey = 2;
+    //   //用户在开放平台的唯一标识符，若当前小程序已绑定到微信开放平台帐号下会返回，详见 UnionID 机制说明。
+    //   string unionId = 3;
+    //TOKEN
+    string token = 1;
   }
-  Data data                   = 1;
+  Data data = 1;
   // 是否成功访问
-  bool success                = 2;
+  bool success = 2;
   // 错误码
-  string errorCode            = 3;
+  string errorCode = 3;
   // 错误详情
-  string errorMsg             = 4;
+  string errorMsg = 4;
 }
 
 message QueryOrderListReq{
@@ -198,25 +268,25 @@ message QueryOrderListResp{
   //活动列表数据
   message Data {
     // 当前页记录数
-    int32 size                                          = 1;
+    int32 size = 1;
     // 总页数
-    int32 pages                                         = 2;
+    int32 pages = 2;
     // 本次请求结果实际页码, 一般与请求参数一致
-    int32 pageNum                                      = 3 ;
+    int32 pageNum = 3 ;
     // 分页大小
-    int32 pageSize                                     = 4 ;
+    int32 pageSize = 4 ;
     repeated Order orderList = 5;
     // 查询命中的对象总数, 请求参数trackTotalHits为真时生效, 否则返回-1
-    int32 total                                         = 6;
+    int32 total = 6;
   }
   //活动列表数据
-  Data data         = 1;
+  Data data = 1;
   // 是否成功访问
-  bool success                 = 8;
+  bool success = 8;
   // 错误码
-  string errorCode            = 9;
+  string errorCode = 9;
   // 错误详情
-  string errorMsg             = 10;
+  string errorMsg = 10;
 }
 
 // GetSystemInfoReq 表示获取系统信息请求.
@@ -226,17 +296,17 @@ message GetSystemInfoReq {
 // GetSystemInfoResp 表示获取系统信息响应.
 message GetSystemInfoResp {
   // 已使用磁盘空间总数, 单位兆字节.
-  int64 totalUsedMb          = 1;
+  int64 totalUsedMb = 1;
   // 磁盘空间容量总数, 单位兆字节.
-  int64 totalMb               = 2;
+  int64 totalMb = 2;
   // 可用磁盘容量, 单位兆字节.
-  int64 availableMb           = 3;
+  int64 availableMb = 3;
   // 是否成功访问
-  bool success                 = 8;
+  bool success = 8;
   // 错误码
-  string errorCode            = 9;
+  string errorCode = 9;
   // 错误详情
-  string errorMsg             = 10;
+  string errorMsg = 10;
 }
 
 // 获取某一天的可参加的活动列表请求
@@ -244,9 +314,9 @@ message QueryActivityListByDayReq{
   //日期，格式为 "20221226"
   string day = 1;
   // 本次请求结果实际页码, 一般与请求参数一致
-  int32 pageNum                                      = 2 ;
+  int32 pageNum = 2 ;
   // 分页大小
-  int32 pageSize                                     = 3 ;
+  int32 pageSize = 3 ;
 }
 
 // 获取某一天的可参加的活动列表返回
@@ -254,26 +324,26 @@ message QueryActivityListByDayResp{
   //活动列表数据
   message Data {
     // 当前页记录数
-    int32 size                                          = 1;
+    int32 size = 1;
     // 总页数
-    int32 pages                                         = 2;
+    int32 pages = 2;
     // 本次请求结果实际页码, 一般与请求参数一致
-    int32 pageNum                                      = 3 ;
+    int32 pageNum = 3 ;
     // 分页大小
-    int32 pageSize                                     = 4 ;
+    int32 pageSize = 4 ;
     // 活动列表
     repeated Activity activityList = 5;
     // 查询命中的对象总数, 请求参数trackTotalHits为真时生效, 否则返回-1
-    int32 total                                         = 6;
+    int32 total = 6;
   }
   //活动列表数据
-  Data data         = 1;
+  Data data = 1;
   // 是否成功访问
-  bool success                 = 8;
+  bool success = 8;
   // 错误码
-  string errorCode            = 9;
+  string errorCode = 9;
   // 错误详情
-  string errorMsg             = 10;
+  string errorMsg = 10;
 }
 // 获取全部可参加的活动列表请求
 message QueryActivityListReq{
@@ -283,53 +353,102 @@ message QueryActivityListResp{
   //活动列表数据
   message Data {
     // 当前页记录数
-    int32 size                                          = 1;
+    int32 size = 1;
     // 总页数
-    int32 pages                                         = 2;
+    int32 pages = 2;
     // 本次请求结果实际页码, 一般与请求参数一致
-    int32 pageNum                                      = 3 ;
+    int32 pageNum = 3 ;
     // 分页大小
-    int32 pageSize                                     = 4 ;
+    int32 pageSize = 4 ;
     // 活动列表
     repeated Activity activityList = 5;
     // 查询命中的对象总数, 请求参数trackTotalHits为真时生效, 否则返回-1
-    int32 total                                         = 6;
+    int32 total = 6;
   }
   //活动列表数据
-  Data data         = 1;
+  Data data = 1;
   // 是否成功访问
-  bool success                 = 8;
+  bool success = 8;
   // 错误码
-  string errorCode            = 9;
+  string errorCode = 9;
   // 错误详情
-  string errorMsg             = 10;
+  string errorMsg = 10;
 }
+//用户详情
+message User{
+  // 活动ID
+  int64 id = 1;
+  // 昵称
+  string nickName = 2;
+  //性别
+  Gender gender = 3;
+  //身高
+  int32  height = 4;
+  //体重
+  int32 weight = 5;
+  //家乡
+  string hometown = 6;
+  //所在地
+  string place = 7;
+  //感情状态
+  EmotionalStatus emotionalStatus = 8;
+  //最高学历
+  Education education = 9;
+  //毕业（在读）院校
+  string university = 10;
+  //公司
+  string company = 11;
+  //微信号
+  string wechatNumber = 12;
+  //手机号
+  string phoneNumber = 13;
+}
+enum Education{
+  //高考统招本科
+  BENKE = 0;
+
+}
+//感情状态
+enum EmotionalStatus{
+  //单身且无婚史
+  SINGLE_NOT_MARRIED = 0;
+  //单身且离异
+  SINGLE_DIVORCED = 1;
+}
+//性别
+enum Gender{
+  //男性
+  MALE = 0;
+  //女性
+  FEMALE = 1;
+}
+
 //活动详情
 message Activity{
-//活动ID
-int64 id = 1;
+  //活动ID
+  int64 id = 1;
   //名称
-string name = 2;
-//标签
-repeated string label = 3;
-//价格
-float  price = 4;
-//时间戳
+  string name = 2;
+  //标签
+  repeated string label = 3;
+  //价格
+  float  price = 4;
+  //时间戳
   string time = 5;
-//
-string location = 6;
-//小图
-string small_img = 7;
-// 大图
-string big_img = 8;
-//描述
-string description = 9;
+  //
+  string location = 6;
+  //小图
+  string small_img = 7;
+  // 大图
+  string big_img = 8;
+  //描述
+  string description = 9;
   //活动序列号
-string activitySerial = 10;
-//创建时间
-int64 createdAt = 11;
-//更新时间
-int64 updatedAt = 12;
+  string activitySerial = 10;
+  //创建时间
+  int64 createdAt = 11;
+  //更新时间
+  int64 updatedAt = 12;
 }
 
 //订单
@@ -339,7 +458,7 @@ message Order{
   //关联的活动序列号
   string activitySerial = 2;
   //时间戳
-  int64 timestamp= 3;
+  int64 timestamp = 3;
   //状态。分为待付款，已付款，已退款
   string status = 4;
 }

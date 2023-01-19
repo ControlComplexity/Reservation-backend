@@ -168,3 +168,15 @@ func GetSha1(str string) string {
 	res := fmt.Sprintf("%x", has) //将[]byte转成16进制
 	return res
 }
+
+func Register(req *api.RegisterReq) (*api.RegisterResp, error) {
+	return nil, nil
+}
+
+func EditUser(req *api.EditUserReq) (*api.EditUserResp, error) {
+	return nil, nil
+}
+
+func QueryUserInfo(req *api.QueryUserInfoReq) (*api.QueryUserInfoResp, error) {
+	return nil, nil
+}

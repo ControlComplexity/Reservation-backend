@@ -26,6 +26,10 @@ type ReservationServiceClient interface {
 	GetSystemInfo(ctx context.Context, in *GetSystemInfoReq, opts ...grpc.CallOption) (*GetSystemInfoResp, error)
 	//用户注册
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
+	//用户注册
+	EditUser(ctx context.Context, in *EditUserReq, opts ...grpc.CallOption) (*EditUserResp, error)
+	//查询用户信息
+	QueryUserInfo(ctx context.Context, in *QueryUserInfoReq, opts ...grpc.CallOption) (*QueryUserInfoResp, error)
 	//微信登录
 	WXLogin(ctx context.Context, in *WXLoginReq, opts ...grpc.CallOption) (*WXLoginResp, error)
 	//生成MBTI
@@ -64,6 +68,24 @@ func (c *reservationServiceClient) GetSystemInfo(ctx context.Context, in *GetSys
 func (c *reservationServiceClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
 	out := new(RegisterResp)
 	err := c.cc.Invoke(ctx, "/reservation.ReservationService/Register", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reservationServiceClient) EditUser(ctx context.Context, in *EditUserReq, opts ...grpc.CallOption) (*EditUserResp, error) {
+	out := new(EditUserResp)
+	err := c.cc.Invoke(ctx, "/reservation.ReservationService/EditUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reservationServiceClient) QueryUserInfo(ctx context.Context, in *QueryUserInfoReq, opts ...grpc.CallOption) (*QueryUserInfoResp, error) {
+	out := new(QueryUserInfoResp)
+	err := c.cc.Invoke(ctx, "/reservation.ReservationService/QueryUserInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -150,6 +172,10 @@ type ReservationServiceServer interface {
 	GetSystemInfo(context.Context, *GetSystemInfoReq) (*GetSystemInfoResp, error)
 	//用户注册
 	Register(context.Context, *RegisterReq) (*RegisterResp, error)
+	//用户注册
+	EditUser(context.Context, *EditUserReq) (*EditUserResp, error)
+	//查询用户信息
+	QueryUserInfo(context.Context, *QueryUserInfoReq) (*QueryUserInfoResp, error)
 	//微信登录
 	WXLogin(context.Context, *WXLoginReq) (*WXLoginResp, error)
 	//生成MBTI
@@ -178,6 +204,12 @@ func (UnimplementedReservationServiceServer) GetSystemInfo(context.Context, *Get
 }
 func (UnimplementedReservationServiceServer) Register(context.Context, *RegisterReq) (*RegisterResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedReservationServiceServer) EditUser(context.Context, *EditUserReq) (*EditUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditUser not implemented")
+}
+func (UnimplementedReservationServiceServer) QueryUserInfo(context.Context, *QueryUserInfoReq) (*QueryUserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryUserInfo not implemented")
 }
 func (UnimplementedReservationServiceServer) WXLogin(context.Context, *WXLoginReq) (*WXLoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WXLogin not implemented")
@@ -248,6 +280,42 @@ func _ReservationService_Register_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ReservationServiceServer).Register(ctx, req.(*RegisterReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ReservationService_EditUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).EditUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/reservation.ReservationService/EditUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).EditUser(ctx, req.(*EditUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ReservationService_QueryUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryUserInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).QueryUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/reservation.ReservationService/QueryUserInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).QueryUserInfo(ctx, req.(*QueryUserInfoReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -410,6 +478,14 @@ var ReservationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Register",
 			Handler:    _ReservationService_Register_Handler,
+		},
+		{
+			MethodName: "EditUser",
+			Handler:    _ReservationService_EditUser_Handler,
+		},
+		{
+			MethodName: "QueryUserInfo",
+			Handler:    _ReservationService_QueryUserInfo_Handler,
 		},
 		{
 			MethodName: "WXLogin",

@@ -128,7 +128,7 @@ func QueryActivityList() (*api.QueryActivityListResp, error) {
 //	}, nil
 //}
 
-// 查询订单
+// QueryOrderList 查询订单
 func QueryOrderList(req *api.QueryOrderListReq) (*api.QueryOrderListResp, error) {
 	db := Init()
 	var orders []api.Order

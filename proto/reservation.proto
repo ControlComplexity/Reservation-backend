@@ -91,30 +91,36 @@ service ReservationService {
 
 //用户编辑请求
 message EditUserReq{
+  //用户ID
+  int64 id = 1;
   // 昵称
-  string nickName = 2;
+  string headImage = 2;
+  // 昵称
+  string nickName = 3;
   //性别
-  Gender gender = 3;
+  Gender gender = 4;
   //身高
-  int32  height = 4;
+  int32  height = 5;
   //体重
-  int32 weight = 5;
+  int32 weight = 6;
   //家乡
-  string hometown = 6;
+  string hometown = 7;
   //所在地
-  string place = 7;
+  string location = 8;
   //感情状态
-  EmotionalStatus emotionalStatus = 8;
+  EmotionalStatus emotionalStatus = 9;
   //最高学历
-  Education education = 9;
+  Education education = 10;
   //毕业（在读）院校
-  string university = 10;
+  string university = 11;
+  //职业
+  string Occupation = 12;
   //公司
-  string company = 11;
+  string company = 13;
   //微信号
-  string wechatNumber = 12;
+  string wechatNumber = 14;
   //手机号
-  string phoneNumber = 13;
+  string phoneNumber = 15;
 }
 
 //用户编辑返回
@@ -126,8 +132,6 @@ message EditUserResp{
   // 错误详情
   string errorMsg = 3;
 }
-
-
 
 //参加活动请求
 message JoinActivityReq{
@@ -379,41 +383,56 @@ message User{
   // 活动ID
   int64 id = 1;
   // 昵称
-  string nickName = 2;
+  string headImage = 2;
+  // 昵称
+  string nickName = 3;
   //性别
-  Gender gender = 3;
+  Gender gender = 4;
   //身高
-  int32  height = 4;
+  int32  height = 5;
   //体重
-  int32 weight = 5;
+  int32 weight = 6;
   //家乡
-  string hometown = 6;
+  string hometown = 7;
   //所在地
-  string place = 7;
+  string location = 8;
   //感情状态
-  EmotionalStatus emotionalStatus = 8;
+  EmotionalStatus emotionalStatus = 9;
   //最高学历
-  Education education = 9;
+  Education education = 10;
   //毕业（在读）院校
-  string university = 10;
+  string university = 11;
   //公司
-  string company = 11;
+  string company = 12;
   //微信号
-  string wechatNumber = 12;
+  string wechatNumber = 13;
   //手机号
-  string phoneNumber = 13;
+  string phoneNumber = 14;
 }
 enum Education{
   //高考统招本科
-  BENKE = 0;
-
+  UNIFIED_BACHELOR = 0;
+  //非全日制本科
+  PART_TIME_BACHELOR = 1;
+  //专升本本科
+  TRANSFORMED_BACHELOR = 2;
+  //全日制硕士
+  FULL_TIME_MASTER = 3;
+  //非全日制硕士
+  PART_TIME_MASTER = 4;
+  //全日制博士
+  FULL_TIME_DOCTOR = 5;
+  //非全日制博士
+  PART_TIME_DOCTOR = 6;
+  //其他
+  OTHER = 7;
 }
 //感情状态
 enum EmotionalStatus{
   //单身且无婚史
-  SINGLE_NOT_MARRIED = 0;
+  SINGLE_WITHOUT_MARRIAGE_HISTORY = 0;
   //单身且离异
-  SINGLE_DIVORCED = 1;
+  SINGLE_AND_DIVORCED = 1;
 }
 //性别
 enum Gender{

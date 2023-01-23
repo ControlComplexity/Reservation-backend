@@ -443,6 +443,15 @@
     "reservationEditUserReq": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "用户ID"
+        },
+        "headImage": {
+          "type": "string",
+          "title": "昵称"
+        },
         "nickName": {
           "type": "string",
           "title": "昵称"
@@ -465,7 +474,7 @@
           "type": "string",
           "title": "家乡"
         },
-        "place": {
+        "location": {
           "type": "string",
           "title": "所在地"
         },
@@ -480,6 +489,10 @@
         "university": {
           "type": "string",
           "title": "毕业（在读）院校"
+        },
+        "Occupation": {
+          "type": "string",
+          "title": "职业"
         },
         "company": {
           "type": "string",
@@ -517,19 +530,26 @@
     "reservationEducation": {
       "type": "string",
       "enum": [
-        "BENKE"
+        "UNIFIED_BACHELOR",
+        "PART_TIME_BACHELOR",
+        "TRANSFORMED_BACHELOR",
+        "FULL_TIME_MASTER",
+        "PART_TIME_MASTER",
+        "FULL_TIME_DOCTOR",
+        "PART_TIME_DOCTOR",
+        "OTHER"
       ],
-      "default": "BENKE",
-      "title": "- BENKE: 高考统招本科"
+      "default": "UNIFIED_BACHELOR",
+      "title": "- UNIFIED_BACHELOR: 高考统招本科\n - PART_TIME_BACHELOR: 非全日制本科\n - TRANSFORMED_BACHELOR: 专升本本科\n - FULL_TIME_MASTER: 全日制硕士\n - PART_TIME_MASTER: 非全日制硕士\n - FULL_TIME_DOCTOR: 全日制博士\n - PART_TIME_DOCTOR: 非全日制博士\n - OTHER: 其他"
     },
     "reservationEmotionalStatus": {
       "type": "string",
       "enum": [
-        "SINGLE_NOT_MARRIED",
-        "SINGLE_DIVORCED"
+        "SINGLE_WITHOUT_MARRIAGE_HISTORY",
+        "SINGLE_AND_DIVORCED"
       ],
-      "default": "SINGLE_NOT_MARRIED",
-      "description": "- SINGLE_NOT_MARRIED: 单身且无婚史\n - SINGLE_DIVORCED: 单身且离异",
+      "default": "SINGLE_WITHOUT_MARRIAGE_HISTORY",
+      "description": "- SINGLE_WITHOUT_MARRIAGE_HISTORY: 单身且无婚史\n - SINGLE_AND_DIVORCED: 单身且离异",
       "title": "感情状态"
     },
     "reservationGender": {
@@ -966,6 +986,10 @@
           "format": "int64",
           "title": "活动ID"
         },
+        "headImage": {
+          "type": "string",
+          "title": "昵称"
+        },
         "nickName": {
           "type": "string",
           "title": "昵称"
@@ -988,7 +1012,7 @@
           "type": "string",
           "title": "家乡"
         },
-        "place": {
+        "location": {
           "type": "string",
           "title": "所在地"
         },

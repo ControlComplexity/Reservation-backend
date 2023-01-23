@@ -89,9 +89,8 @@ func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
 		//用户不存在，MySQL中创建一个用户记录
 
 		user := model.UserDO{
-			Name:        "jinzhu",
 			NickName:    "sdsdfds",
-			PhoneNumber: 13166661111,
+			PhoneNumber: "13166661111",
 			OpenID:      wxResp.OpenId,
 		}
 		db.Create(&user)
@@ -173,10 +172,63 @@ func Register(req *api.RegisterReq) (*api.RegisterResp, error) {
 	return nil, nil
 }
 
+// EditUser 编辑用户
 func EditUser(req *api.EditUserReq) (*api.EditUserResp, error) {
-	return nil, nil
+	db := dal.Init()
+	err := db.Model(model.UserDO{}).Where("id = ?", req.Id).Updates(model.UserDO{
+		HeadImage:       req.HeadImage,
+		NickName:        req.NickName,
+		Gender:          req.Gender.String(),
+		Height:          req.Height,
+		Weight:          req.Weight,
+		Hometown:        req.Hometown,
+		Location:        req.Location,
+		EmotionalStatus: req.EmotionalStatus.String(),
+		Education:       req.Education.String(),
+		University:      req.University,
+		Occupation:      req.Occupation,
+		Company:         req.Company,
+		WechatNumber:    req.WechatNumber,
+		PhoneNumber:     req.PhoneNumber,
+	}).Error
+	if err == nil {
+		return &api.EditUserResp{
+			Success:   true,
+			ErrorCode: constant.SUCCESS_ERROR_CODE,
+		}, nil
+	} else {
+		return &api.EditUserResp{
+			Success:   false,
+			ErrorCode: constant.EDIT_RECORD_ERROR,
+			ErrorMsg:  err.Error(),
+		}, nil
+	}
 }
 
+// QueryUserInfo 查询用户信息
 func QueryUserInfo(req *api.QueryUserInfoReq) (*api.QueryUserInfoResp, error) {
-	return nil, nil
+	db := dal.Init()
+	var user model.UserDO
+	db.Model(&model.UserDO{}).Where("id = ? ", req.Id).Find(&user).Limit(1)
+	fmt.Println("user: ", user)
+	u := api.User{
+		Id:              user.ID,
+		HeadImage:       user.HeadImage,
+		NickName:        user.NickName,
+		Gender:          api.Gender(api.Gender_value[user.Gender]),
+		Height:          user.Height,
+		Weight:          user.Weight,
+		Hometown:        user.Hometown,
+		Location:        user.Location,
+		EmotionalStatus: api.EmotionalStatus(api.EmotionalStatus_value[user.EmotionalStatus]),
+		Education:       api.Education(api.Education_value[user.Education]),
+		University:      user.University,
+		WechatNumber:    user.WechatNumber,
+		PhoneNumber:     user.PhoneNumber,
+	}
+	return &api.QueryUserInfoResp{
+		Data:      &u,
+		Success:   true,
+		ErrorCode: constant.SUCCESS_ERROR_CODE,
+	}, nil
 }

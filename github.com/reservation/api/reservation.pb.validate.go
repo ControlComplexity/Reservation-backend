@@ -57,6 +57,10 @@ func (m *EditUserReq) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
+	// no validation rules for HeadImage
+
 	// no validation rules for NickName
 
 	// no validation rules for Gender
@@ -67,13 +71,15 @@ func (m *EditUserReq) validate(all bool) error {
 
 	// no validation rules for Hometown
 
-	// no validation rules for Place
+	// no validation rules for Location
 
 	// no validation rules for EmotionalStatus
 
 	// no validation rules for Education
 
 	// no validation rules for University
+
+	// no validation rules for Occupation
 
 	// no validation rules for Company
 
@@ -2901,6 +2907,8 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for Id
 
+	// no validation rules for HeadImage
+
 	// no validation rules for NickName
 
 	// no validation rules for Gender
@@ -2911,7 +2919,7 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for Hometown
 
-	// no validation rules for Place
+	// no validation rules for Location
 
 	// no validation rules for EmotionalStatus
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80031
 File Encoding         : 65001
 
-Date: 2023-01-19 16:57:37
+Date: 2023-01-23 16:28:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -67,18 +67,26 @@ INSERT INTO `order` VALUES ('1', '1', '1');
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
+  `head_image` varchar(255) DEFAULT NULL,
   `nick_name` varchar(255) DEFAULT NULL,
+  `gender` enum('male','female') DEFAULT NULL,
+  `height` int DEFAULT NULL,
+  `weight` int DEFAULT NULL,
+  `hometown` varchar(255) DEFAULT NULL,
+  `emotional_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `education` varchar(255) DEFAULT NULL,
+  `university` varchar(255) DEFAULT NULL,
+  `occupation` varchar(255) DEFAULT NULL,
+  `company` varchar(255) DEFAULT NULL,
+  `wechat_number` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
   `open_id` varchar(255) DEFAULT NULL,
   `token` varchar(255) DEFAULT NULL,
-  `phone_number` bigint DEFAULT NULL,
-  `head_image` varchar(255) DEFAULT NULL,
-  `created_at` datetime(6) DEFAULT NULL,
-  `updated_at` datetime(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+  `created_at` timestamp(6) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+  `updated_at` timestamp(6) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'jinzhu', 'sdsdfds', 'oVGbv5EAoFhF5aHVr5tQaF5xrTec', null, '13166661111', null, '2023-01-18 20:56:24.622467', '2023-01-18 20:56:24.622467');

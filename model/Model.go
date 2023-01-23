@@ -28,15 +28,25 @@ func (ActivityDO) TableName() string {
 }
 
 type UserDO struct {
-	ID          int64     `gorm:"column:id;type:serial;primaryKey;comment:自增id"`
-	Name        string    `gorm:"column:name;type:varchar(50);index;not null;default:'';comment:用户名"`
-	NickName    string    `gorm:"column:nick_name;type:varchar(50);index;not null;default:'';comment:昵称"`
-	OpenID      string    `gorm:"column:open_id;type:varchar(50);index;not null;default:'';comment:OpenID"`
-	Token       string    `gorm:"column:token;type:varchar(50);index;not null;default:'';comment:Token"`
-	PhoneNumber int64     `gorm:"column:phone_number;type:int;comment:手机号"`
-	HeadImage   string    `gorm:"column:head_image;type:varchar(50);index;not null;default:'';comment:头像"`
-	CreatedAt   time.Time `gorm:"column:created_at;type:timestamp;autoCreateTime;not null;default:CURRENT_TIMESTAMP;comment:创建时间"`
-	UpdatedAt   time.Time `gorm:"column:updated_at;type:timestamp;autoUpdateTime;not null;default:CURRENT_TIMESTAMP;comment:更新时间"`
+	ID              int64     `gorm:"column:id;type:serial;primaryKey;comment:自增id"`
+	HeadImage       string    `gorm:"column:head_image;type:varchar(50);index;not null;default:'';comment:头像"`
+	NickName        string    `gorm:"column:nick_name;type:varchar(50);index;not null;default:'';comment:昵称"`
+	Gender          string    `gorm:"type:enum('male', 'female');default:'male';comment:性别"`
+	Height          int32     `gorm:"column:height;type:int;comment:身高(cm)"`
+	Weight          int32     `gorm:"column:weight;type:int;comment:体重(kg)"`
+	Hometown        string    `gorm:"column:hometown;type:varchar(50);not null;default:'';comment:籍贯"`
+	Location        string    `gorm:"column:location;type:varchar(50);not null;default:'';comment:所在地"`
+	EmotionalStatus string    `gorm:"type:enum('SINGLE_WITHOUT_MARRIAGE_HISTORY', 'SINGLE_AND_DIVORCED');default:'SINGLE_AND_DIVORCED';comment:目前情感状态"`
+	Education       string    `gorm:"type:enum('UNIFIED_BACHELOR', 'PART_TIME_BACHELOR','TRANSFORMED_BACHELOR','FULL_TIME_MASTER', 'PART_TIME_MASTER','FULL_TIME_DOCTOR','PART_TIME_DOCTOR','OTHER');default:'UNIFIED_BACHELOR';comment:最高学历"`
+	University      string    `gorm:"column:university;type:varchar(50);not null;default:'';comment:毕业(在读)院校"`
+	Occupation      string    `gorm:"column:occupation;type:varchar(50);not null;default:'';comment:职业"`
+	Company         string    `gorm:"column:company;type:varchar(50);not null;default:'';comment:公司"`
+	WechatNumber    string    `gorm:"column:wechat_number;type:varchar(50);not null;default:'';comment:微信号"`
+	PhoneNumber     string    `gorm:"column:phone_number;type:varchar(50);comment:手机号"`
+	OpenID          string    `gorm:"column:open_id;type:varchar(50);not null;default:'';comment:OpenID"`
+	Token           string    `gorm:"column:token;type:varchar(50);not null;default:'';comment:Token"`
+	CreatedAt       time.Time `gorm:"column:created_at;type:timestamp;autoCreateTime;not null;default:CURRENT_TIMESTAMP;comment:创建时间"`
+	UpdatedAt       time.Time `gorm:"column:updated_at;type:timestamp;autoUpdateTime;not null;default:CURRENT_TIMESTAMP;comment:更新时间"`
 }
 
 func (UserDO) TableName() string {

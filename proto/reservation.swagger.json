@@ -204,6 +204,39 @@
         ]
       }
     },
+    "/v1/query/swipers": {
+      "post": {
+        "summary": "查询轮播图",
+        "operationId": "ReservationService_QuerySwipers",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationQuerySwipersResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reservationQuerySwipersReq"
+            }
+          }
+        ],
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
     "/v1/query/user/{id}": {
       "get": {
         "summary": "查询用户信息",
@@ -936,6 +969,45 @@
       },
       "title": "活动列表数据"
     },
+    "reservationQuerySwipersReq": {
+      "type": "object",
+      "title": "轮播图列表请求"
+    },
+    "reservationQuerySwipersResp": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/reservationQuerySwipersRespData",
+          "title": "活动列表数据"
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功访问"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      },
+      "title": "轮播图列表返回"
+    },
+    "reservationQuerySwipersRespData": {
+      "type": "object",
+      "properties": {
+        "swiperList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reservationSwiper"
+          },
+          "title": "活动列表"
+        }
+      },
+      "title": "活动列表数据"
+    },
     "reservationQueryUserInfoResp": {
       "type": "object",
       "properties": {
@@ -977,6 +1049,20 @@
           "title": "错误详情"
         }
       }
+    },
+    "reservationSwiper": {
+      "type": "object",
+      "properties": {
+        "img": {
+          "type": "string",
+          "title": "图片地址"
+        },
+        "url": {
+          "type": "string",
+          "title": "超链接地址"
+        }
+      },
+      "title": "轮播图"
     },
     "reservationUser": {
       "type": "object",

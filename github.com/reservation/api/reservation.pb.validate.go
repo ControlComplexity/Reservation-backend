@@ -822,6 +822,241 @@ var _ interface {
 	ErrorName() string
 } = QueryActivityInfoReqValidationError{}
 
+// Validate checks the field values on QuerySwipersReq with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *QuerySwipersReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QuerySwipersReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QuerySwipersReqMultiError, or nil if none found.
+func (m *QuerySwipersReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QuerySwipersReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return QuerySwipersReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// QuerySwipersReqMultiError is an error wrapping multiple validation errors
+// returned by QuerySwipersReq.ValidateAll() if the designated constraints
+// aren't met.
+type QuerySwipersReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QuerySwipersReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QuerySwipersReqMultiError) AllErrors() []error { return m }
+
+// QuerySwipersReqValidationError is the validation error returned by
+// QuerySwipersReq.Validate if the designated constraints aren't met.
+type QuerySwipersReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QuerySwipersReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QuerySwipersReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QuerySwipersReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QuerySwipersReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QuerySwipersReqValidationError) ErrorName() string { return "QuerySwipersReqValidationError" }
+
+// Error satisfies the builtin error interface
+func (e QuerySwipersReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQuerySwipersReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QuerySwipersReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QuerySwipersReqValidationError{}
+
+// Validate checks the field values on QuerySwipersResp with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *QuerySwipersResp) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QuerySwipersResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QuerySwipersRespMultiError, or nil if none found.
+func (m *QuerySwipersResp) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QuerySwipersResp) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetData()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, QuerySwipersRespValidationError{
+					field:  "Data",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, QuerySwipersRespValidationError{
+					field:  "Data",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return QuerySwipersRespValidationError{
+				field:  "Data",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Success
+
+	// no validation rules for ErrorCode
+
+	// no validation rules for ErrorMsg
+
+	if len(errors) > 0 {
+		return QuerySwipersRespMultiError(errors)
+	}
+
+	return nil
+}
+
+// QuerySwipersRespMultiError is an error wrapping multiple validation errors
+// returned by QuerySwipersResp.ValidateAll() if the designated constraints
+// aren't met.
+type QuerySwipersRespMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QuerySwipersRespMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QuerySwipersRespMultiError) AllErrors() []error { return m }
+
+// QuerySwipersRespValidationError is the validation error returned by
+// QuerySwipersResp.Validate if the designated constraints aren't met.
+type QuerySwipersRespValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QuerySwipersRespValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QuerySwipersRespValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QuerySwipersRespValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QuerySwipersRespValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QuerySwipersRespValidationError) ErrorName() string { return "QuerySwipersRespValidationError" }
+
+// Error satisfies the builtin error interface
+func (e QuerySwipersRespValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQuerySwipersResp.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QuerySwipersRespValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QuerySwipersRespValidationError{}
+
 // Validate checks the field values on QueryActivityInfoResp with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -3010,6 +3245,108 @@ var _ interface {
 	ErrorName() string
 } = UserValidationError{}
 
+// Validate checks the field values on Swiper with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Swiper) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Swiper with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in SwiperMultiError, or nil if none found.
+func (m *Swiper) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Swiper) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Img
+
+	// no validation rules for Url
+
+	if len(errors) > 0 {
+		return SwiperMultiError(errors)
+	}
+
+	return nil
+}
+
+// SwiperMultiError is an error wrapping multiple validation errors returned by
+// Swiper.ValidateAll() if the designated constraints aren't met.
+type SwiperMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SwiperMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SwiperMultiError) AllErrors() []error { return m }
+
+// SwiperValidationError is the validation error returned by Swiper.Validate if
+// the designated constraints aren't met.
+type SwiperValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SwiperValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SwiperValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SwiperValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SwiperValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SwiperValidationError) ErrorName() string { return "SwiperValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SwiperValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSwiper.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SwiperValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SwiperValidationError{}
+
 // Validate checks the field values on Activity with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -3236,6 +3573,142 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = OrderValidationError{}
+
+// Validate checks the field values on QuerySwipersResp_Data with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *QuerySwipersResp_Data) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QuerySwipersResp_Data with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QuerySwipersResp_DataMultiError, or nil if none found.
+func (m *QuerySwipersResp_Data) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QuerySwipersResp_Data) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetSwiperList() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, QuerySwipersResp_DataValidationError{
+						field:  fmt.Sprintf("SwiperList[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, QuerySwipersResp_DataValidationError{
+						field:  fmt.Sprintf("SwiperList[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return QuerySwipersResp_DataValidationError{
+					field:  fmt.Sprintf("SwiperList[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return QuerySwipersResp_DataMultiError(errors)
+	}
+
+	return nil
+}
+
+// QuerySwipersResp_DataMultiError is an error wrapping multiple validation
+// errors returned by QuerySwipersResp_Data.ValidateAll() if the designated
+// constraints aren't met.
+type QuerySwipersResp_DataMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QuerySwipersResp_DataMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QuerySwipersResp_DataMultiError) AllErrors() []error { return m }
+
+// QuerySwipersResp_DataValidationError is the validation error returned by
+// QuerySwipersResp_Data.Validate if the designated constraints aren't met.
+type QuerySwipersResp_DataValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QuerySwipersResp_DataValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QuerySwipersResp_DataValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QuerySwipersResp_DataValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QuerySwipersResp_DataValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QuerySwipersResp_DataValidationError) ErrorName() string {
+	return "QuerySwipersResp_DataValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e QuerySwipersResp_DataValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQuerySwipersResp_Data.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QuerySwipersResp_DataValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QuerySwipersResp_DataValidationError{}
 
 // Validate checks the field values on WXLoginResp_Data with the rules defined
 // in the proto definition for this message. If any rules are violated, the

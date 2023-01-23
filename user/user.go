@@ -94,11 +94,11 @@ func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
 			OpenID:      wxResp.OpenId,
 		}
 		db.Create(&user)
-		id = user.ID
+		id = user.Id
 		fmt.Println("创建User成功, id: ", id)
 	} else {
 		//用户存在，直接返回id
-		id = user.ID
+		id = user.Id
 	}
 	return &api.WXLoginResp{
 		Data: &api.WXLoginResp_Data{
@@ -212,7 +212,7 @@ func QueryUserInfo(req *api.QueryUserInfoReq) (*api.QueryUserInfoResp, error) {
 	db.Model(&model.UserDO{}).Where("id = ? ", req.Id).Find(&user).Limit(1)
 	fmt.Println("user: ", user)
 	u := api.User{
-		Id:              user.ID,
+		Id:              user.Id,
 		HeadImage:       user.HeadImage,
 		NickName:        user.NickName,
 		Gender:          api.Gender(api.Gender_value[user.Gender]),

@@ -49,7 +49,14 @@ service ReservationService {
 
   //查询某人的MBTI结果
   rpc QueryMBTI(QueryMBTIReq) returns (QueryMBTIResp){
+  }
 
+  //查询轮播图
+  rpc QuerySwipers (QuerySwipersReq)returns (QuerySwipersResp){
+    option (google.api.http) = {
+      post: "/v1/query/swipers"
+      body: "*"
+    };
   }
 
   //参加活动生成订单
@@ -171,6 +178,26 @@ message QueryUserInfoResp{
 message QueryActivityInfoReq{
   //活动id
   int32 id = 1;
+}
+//轮播图列表请求
+message QuerySwipersReq{
+
+}
+//轮播图列表返回
+message QuerySwipersResp{
+  //活动列表数据
+  message Data {
+    // 活动列表
+    repeated Swiper swiperList = 5;
+  }
+  //活动列表数据
+  Data data = 1;
+  // 是否成功访问
+  bool success = 2;
+  // 错误码
+  string errorCode = 3;
+  // 错误详情
+  string errorMsg = 4;
 }
 
 message QueryActivityInfoResp{
@@ -440,6 +467,13 @@ enum Gender{
   MALE = 0;
   //女性
   FEMALE = 1;
+}
+//轮播图
+message Swiper{
+ //图片地址
+  string img = 1;
+ //超链接地址
+  string url = 2;
 }
 
 //活动详情

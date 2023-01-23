@@ -33,7 +33,7 @@ func QueryActivityInfo(req *api.QueryActivityInfoReq) (*api.QueryActivityInfoRes
 	fmt.Println("ac:", ac)
 
 	activity := api.Activity{
-		Id:          ac.ID,
+		Id:          ac.Id,
 		Name:        ac.Name,
 		Label:       strings.Split(ac.Label, ","),
 		Price:       ac.Price,
@@ -83,7 +83,7 @@ func QueryActivityList() (*api.QueryActivityListResp, error) {
 	for _, ac := range activities {
 
 		activitySlice = append(activitySlice, &api.Activity{
-			Id:          ac.ID,
+			Id:          ac.Id,
 			Name:        ac.Name,
 			Label:       strings.Split(ac.Label, ","),
 			Price:       ac.Price,
@@ -145,5 +145,27 @@ func QueryOrderList(req *api.QueryOrderListReq) (*api.QueryOrderListResp, error)
 		},
 		ErrorCode: constant.SUCCESS_ERROR_CODE,
 		Success:   true,
+	}, nil
+}
+
+// QuerySwipers 查询订单
+func QuerySwipers(req *api.QuerySwipersReq) (*api.QuerySwipersResp, error) {
+	db := Init()
+	var swipers []model.SwiperDO
+	db.Model(&model.SwiperDO{}).Find(&swipers)
+	fmt.Println("swipers:", swipers)
+	sw := make([]*api.Swiper, 0)
+	for _, ac := range swipers {
+		sw = append(sw, &api.Swiper{
+			Url: ac.URL,
+			Img: ac.Img,
+		})
+	}
+	return &api.QuerySwipersResp{
+		Data: &api.QuerySwipersResp_Data{
+			SwiperList: sw,
+		},
+		Success:   true,
+		ErrorCode: constant.SUCCESS_ERROR_CODE,
 	}, nil
 }

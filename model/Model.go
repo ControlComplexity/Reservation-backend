@@ -5,12 +5,17 @@ import (
 )
 
 var (
+	swiperTableName   = "swiper"
 	activityTableName = "activity"
 	userTableName     = "user"
 )
 
+type Model struct {
+	Id int64 `gorm:"primaryKey;autoIncrement" json:"ID" form:"ID"`
+}
+
 type ActivityDO struct {
-	ID          int64     `gorm:"column:activity_id;type:serial;primaryKey;comment:自增id"`
+	Model
 	Name        string    `gorm:"column:name;type:varchar(50);index;not null;default:'';comment:活动名称"`
 	Label       string    `gorm:"column:label;type:varchar(50);index;not null;default:'';comment:活动标签"`
 	Price       float32   `gorm:"column:price;type:float;index;not null;default:0;comment:价格"`
@@ -28,7 +33,7 @@ func (ActivityDO) TableName() string {
 }
 
 type UserDO struct {
-	ID              int64     `gorm:"column:id;type:serial;primaryKey;comment:自增id"`
+	Model
 	HeadImage       string    `gorm:"column:head_image;type:varchar(50);index;not null;default:'';comment:头像"`
 	NickName        string    `gorm:"column:nick_name;type:varchar(50);index;not null;default:'';comment:昵称"`
 	Gender          string    `gorm:"type:enum('male', 'female');default:'male';comment:性别"`
@@ -51,4 +56,14 @@ type UserDO struct {
 
 func (UserDO) TableName() string {
 	return userTableName
+}
+
+type SwiperDO struct {
+	Model
+	Img string `gorm:"column:img;type:string;"`
+	URL string `gorm:"column:url;type:string;"`
+}
+
+func (SwiperDO) TableName() string {
+	return swiperTableName
 }

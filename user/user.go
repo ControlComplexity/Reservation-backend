@@ -206,10 +206,10 @@ func EditUser(req *api.EditUserReq) (*api.EditUserResp, error) {
 }
 
 // QueryUserInfo 查询用户信息
-func QueryUserInfo(req *api.QueryUserInfoReq) (*api.QueryUserInfoResp, error) {
+func QueryUserInfo(token string) (*api.QueryUserInfoResp, error) {
 	db := dal.Init()
 	var user model.UserDO
-	db.Model(&model.UserDO{}).Where("id = ? ", req.Id).Find(&user).Limit(1)
+	db.Model(&model.UserDO{}).Where("id = ? ", token).Find(&user).Limit(1)
 	fmt.Println("user: ", user)
 	u := api.User{
 		Id:              user.Id,

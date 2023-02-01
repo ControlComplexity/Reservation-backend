@@ -237,7 +237,7 @@
         ]
       }
     },
-    "/v1/query/user/{id}": {
+    "/v1/query/user": {
       "get": {
         "summary": "查询用户信息",
         "operationId": "ReservationService_QueryUserInfo",
@@ -255,16 +255,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "用户id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
         "tags": [
           "ReservationService"
         ]

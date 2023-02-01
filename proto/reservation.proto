@@ -1,6 +1,6 @@
 syntax = "proto3";
 package reservation;
-
+import "validate/validate.proto";
 import "google/api/annotations.proto";
 option go_package = "github.com/reservation/api";
 service ReservationService {
@@ -28,7 +28,7 @@ service ReservationService {
   //查询用户信息
   rpc QueryUserInfo (QueryUserInfoReq)returns (QueryUserInfoResp){
     option (google.api.http) = {
-      get: "/v1/query/user/{id}"
+      get: "/v1/query/user"
     };
   }
   //微信登录
@@ -101,9 +101,9 @@ message EditUserReq{
   //用户ID
   int64 id = 1;
   // 昵称
-  string headImage = 2;
+  string headImage = 2[(validate.rules).string = {min_len: 1}];
   // 昵称
-  string nickName = 3;
+  string nickName = 3[(validate.rules).string = {min_len: 1}];
   //性别
   Gender gender = 4;
   //身高
@@ -111,7 +111,7 @@ message EditUserReq{
   //体重
   int32 weight = 6;
   //家乡
-  string hometown = 7;
+  string hometown = 7[(validate.rules).string = {min_len: 1}];
   //所在地
   string location = 8;
   //感情状态
@@ -159,8 +159,6 @@ message JoinActivityResp{
 }
 //查询用户信息请求
 message QueryUserInfoReq{
-  //用户id
-  int32 id = 1;
 }
 //查询用户信息返回
 message QueryUserInfoResp{
@@ -262,11 +260,11 @@ message RegisterResp{
 //微信登录请求
 message WXLoginReq{
   //登录时获取的 code，可通过wx.login获取
-  string code = 1;
+  string code = 1 [(validate.rules).string = {min_len: 1}];
   //云开发环境id
-  string encryptedData = 2;
+  string encryptedData = 2[(validate.rules).string = {min_len: 1}];
   //加密算法的初始向量
-  string iv = 3;
+  string iv = 3[(validate.rules).string = {min_len: 1}];
 }
 
 //微信登录返回
@@ -292,7 +290,7 @@ message WXLoginResp{
 
 message QueryOrderListReq{
   //用户的uuid
-  string uuid = 1;
+  string uuid = 1[(validate.rules).string = {min_len: 1}];
 }
 
 message QueryOrderListResp{

@@ -59,9 +59,27 @@ func (m *EditUserReq) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for HeadImage
+	if utf8.RuneCountInString(m.GetHeadImage()) < 1 {
+		err := EditUserReqValidationError{
+			field:  "HeadImage",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for NickName
+	if utf8.RuneCountInString(m.GetNickName()) < 1 {
+		err := EditUserReqValidationError{
+			field:  "NickName",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	// no validation rules for Gender
 
@@ -69,7 +87,16 @@ func (m *EditUserReq) validate(all bool) error {
 
 	// no validation rules for Weight
 
-	// no validation rules for Hometown
+	if utf8.RuneCountInString(m.GetHometown()) < 1 {
+		err := EditUserReqValidationError{
+			field:  "Hometown",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	// no validation rules for Location
 
@@ -500,8 +527,6 @@ func (m *QueryUserInfoReq) validate(all bool) error {
 	}
 
 	var errors []error
-
-	// no validation rules for Id
 
 	if len(errors) > 0 {
 		return QueryUserInfoReqMultiError(errors)
@@ -1963,11 +1988,38 @@ func (m *WXLoginReq) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Code
+	if utf8.RuneCountInString(m.GetCode()) < 1 {
+		err := WXLoginReqValidationError{
+			field:  "Code",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for EncryptedData
+	if utf8.RuneCountInString(m.GetEncryptedData()) < 1 {
+		err := WXLoginReqValidationError{
+			field:  "EncryptedData",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for Iv
+	if utf8.RuneCountInString(m.GetIv()) < 1 {
+		err := WXLoginReqValidationError{
+			field:  "Iv",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if len(errors) > 0 {
 		return WXLoginReqMultiError(errors)
@@ -2202,7 +2254,16 @@ func (m *QueryOrderListReq) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Uuid
+	if utf8.RuneCountInString(m.GetUuid()) < 1 {
+		err := QueryOrderListReqValidationError{
+			field:  "Uuid",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if len(errors) > 0 {
 		return QueryOrderListReqMultiError(errors)

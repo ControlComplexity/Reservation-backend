@@ -2,6 +2,8 @@ package server
 
 import (
 	"context"
+	"google.golang.org/grpc/metadata"
+	"reservation/constant"
 	"reservation/dal"
 	"reservation/github.com/reservation/api"
 	"reservation/user"
@@ -39,7 +41,19 @@ func (svcImpl *apiServiceImpl) EditUser(ctx context.Context, req *api.EditUserRe
 
 // QueryUserInfo 查询用户信息
 func (svcImpl *apiServiceImpl) QueryUserInfo(ctx context.Context, req *api.QueryUserInfoReq) (*api.QueryUserInfoResp, error) {
-	return user.QueryUserInfo(req)
+	var token string
+	if headers, ok := metadata.FromIncomingContext(ctx); ok {
+		res := headers.Get(constant.TOKEN)
+		if res != nil && len(res) > 0 {
+			token = res[0]
+		} else {
+			return &api.QueryUserInfoResp{
+				Success:  false,
+				ErrorMsg: "token 不存在",
+			}, nil
+		}
+	}
+	return user.QueryUserInfo(token)
 }
 
 // Register 注册
@@ -52,7 +66,7 @@ func (svcImpl *apiServiceImpl) WXLogin(ctx context.Context, req *api.WXLoginReq)
 	return user.WXLogin(req)
 }
 
-// WXLogin 微信登陆接口
+// QuerySwipers 轮播图查询接口
 func (svcImpl *apiServiceImpl) QuerySwipers(ctx context.Context, req *api.QuerySwipersReq) (*api.QuerySwipersResp, error) {
 	return dal.QuerySwipers(req)
 }

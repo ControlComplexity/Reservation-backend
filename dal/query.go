@@ -45,8 +45,6 @@ func QueryActivityInfo(req *api.QueryActivityInfoReq) (*api.QueryActivityInfoRes
 		CreatedAt:   utils.Time2Milli(ac.CreatedAt),
 		UpdatedAt:   utils.Time2Milli(ac.UpdatedAt),
 	}
-	//activities := make([]*api.Activity, 0)
-	//activities = append(activities, &activity)
 	return &api.QueryActivityInfoResp{
 		Data:      &activity,
 		Success:   true,
@@ -54,18 +52,20 @@ func QueryActivityInfo(req *api.QueryActivityInfoReq) (*api.QueryActivityInfoRes
 	}, nil
 }
 
-func JoinActivity(req *api.JoinActivityReq) (*api.JoinActivityResp, error) {
+func JoinActivity(req *api.JoinActivityReq, ch chan string) (*api.JoinActivityResp, error) {
 	db := Init()
 	var ac model.ActivityDO
 	e := db.Model(&model.ActivityDO{}).Where("activity_id = ? ", req.Id).Find(&ac).Limit(1)
 	fmt.Println("ac:", ac)
 	if e.Error != nil {
+		ch <- "报名活动失败"
 		return &api.JoinActivityResp{
 			Success:   false,
 			ErrorCode: constant.RECORD_NOT_FOUND,
 			ErrorMsg:  "failed to join activity, " + e.Error.Error(),
 		}, nil
 	}
+	ch <- "报名活动成功"
 	return &api.JoinActivityResp{
 		Price:     ac.Price,
 		Success:   true,

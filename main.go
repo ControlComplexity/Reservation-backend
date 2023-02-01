@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"reservation/config"
+	"reservation/message"
 	"reservation/server"
 	"syscall"
 )
@@ -26,13 +27,14 @@ func main() {
 	InitLogger()
 	logger.Info("=== reservation-service ===")
 	err := config.ReadConfig(*configPath, configs)
+	ch := make(chan string, 0)
 
 	if err != nil {
 		panic(err)
 	}
 	logger.Info("GRPC server starting at " + configs.GRPCPort)
 	go func() {
-		if err := server.RunGRPCServer(*configs); err != nil {
+		if err := server.RunGRPCServer(*configs, ch); err != nil {
 			log.Fatal("GRPC server start failed: " + err.Error())
 		}
 	}()
@@ -43,7 +45,8 @@ func main() {
 			log.Fatal("HTTP server start failed: " + err.Error())
 		}
 	}()
-
+	//发送WebSocket消息
+	message.Send(ch)
 	// Wait for quit signal
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)

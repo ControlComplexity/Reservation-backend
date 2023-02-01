@@ -19,6 +19,7 @@ import (
 type apiServiceImpl struct {
 	api.UnimplementedReservationServiceServer
 	config config.Config
+	ch     chan string
 }
 
 type Validator interface {
@@ -32,8 +33,9 @@ func InitLogger() {
 
 var logger *zap.Logger
 
-func RunGRPCServer(config config.Config) error {
+func RunGRPCServer(config config.Config, ch chan string) error {
 	fmt.Print("version 34")
+
 	InitLogger()
 	interceptor := func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
 		if p, ok := req.(Validator); ok {
@@ -64,7 +66,7 @@ func RunGRPCServer(config config.Config) error {
 			interceptor,
 		),
 	}
-	resServer, err := NewReservationServer(config)
+	resServer, err := NewReservationServer(config, ch)
 	if err != nil {
 		logger.Error("Run(). Create res server failed:" + err.Error())
 		return err
@@ -121,9 +123,10 @@ func RunHTTPServer(config *config.Config) error {
 }
 
 // NewReservationServer creates an instance of DataManagerServiceServer
-func NewReservationServer(config config.Config) (api.ReservationServiceServer, error) {
+func NewReservationServer(config config.Config, ch chan string) (api.ReservationServiceServer, error) {
 	svc := &apiServiceImpl{
 		config: config,
+		ch:     ch,
 	}
 	return svc, nil
 }

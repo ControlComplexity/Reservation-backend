@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"google.golang.org/grpc/metadata"
 	"reservation/constant"
 	"reservation/dal"
@@ -26,7 +27,8 @@ func (svcImpl *apiServiceImpl) QueryActivityInfo(ctx context.Context, req *api.Q
 
 // JoinActivity 参加活动
 func (svcImpl *apiServiceImpl) JoinActivity(ctx context.Context, req *api.JoinActivityReq) (*api.JoinActivityResp, error) {
-	return dal.JoinActivity(req)
+	fmt.Println("JoinActivity start")
+	return dal.JoinActivity(req, svcImpl.ch)
 }
 
 // QueryOrderList 查询订单信息

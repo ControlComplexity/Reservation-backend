@@ -8,6 +8,8 @@ var (
 	swiperTableName   = "swiper"
 	activityTableName = "activity"
 	userTableName     = "user"
+	enlistTableName   = "enlist"
+	orderTableName    = "order"
 )
 
 type Model struct {
@@ -66,4 +68,24 @@ type SwiperDO struct {
 
 func (SwiperDO) TableName() string {
 	return swiperTableName
+}
+
+type EnlistDO struct {
+	Model
+	user1Id int64 `gorm:"column:user_1_id;type:int;"`
+	user2Id int64 `gorm:"column:user_2_id;type:int;"`
+}
+
+func (EnlistDO) TableName() string {
+	return enlistTableName
+}
+
+type OrderDO struct {
+	Model
+	userId     int64 `gorm:"column:user_id;type:int;"`
+	activityId int64 `gorm:"column:activity_id;type:int;"`
+}
+
+func (OrderDO) TableName() string {
+	return orderTableName
 }

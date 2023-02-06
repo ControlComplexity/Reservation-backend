@@ -94,7 +94,7 @@ func (Education) EnumDescriptor() ([]byte, []int) {
 	return file_proto_reservation_proto_rawDescGZIP(), []int{0}
 }
 
-//感情状态
+// 感情状态
 type EmotionalStatus int32
 
 const (
@@ -143,7 +143,7 @@ func (EmotionalStatus) EnumDescriptor() ([]byte, []int) {
 	return file_proto_reservation_proto_rawDescGZIP(), []int{1}
 }
 
-//性别
+// 性别
 type Gender int32
 
 const (
@@ -192,7 +192,7 @@ func (Gender) EnumDescriptor() ([]byte, []int) {
 	return file_proto_reservation_proto_rawDescGZIP(), []int{2}
 }
 
-//用户编辑请求
+// 用户编辑请求
 type EditUserReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -367,7 +367,7 @@ func (x *EditUserReq) GetPhoneNumber() string {
 	return ""
 }
 
-//用户编辑返回
+// 用户编辑返回
 type EditUserResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -434,7 +434,7 @@ func (x *EditUserResp) GetErrorMsg() string {
 	return ""
 }
 
-//参加活动请求
+// 参加活动请求
 type JoinActivityReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -483,7 +483,7 @@ func (x *JoinActivityReq) GetId() int64 {
 	return 0
 }
 
-//参加活动请求
+// 参加活动请求
 type JoinActivityResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -559,7 +559,7 @@ func (x *JoinActivityResp) GetErrorMsg() string {
 	return ""
 }
 
-//查询用户信息请求
+// 查询用户信息请求
 type QueryUserInfoReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -598,7 +598,7 @@ func (*QueryUserInfoReq) Descriptor() ([]byte, []int) {
 	return file_proto_reservation_proto_rawDescGZIP(), []int{4}
 }
 
-//查询用户信息返回
+// 查询用户信息返回
 type QueryUserInfoResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -674,7 +674,7 @@ func (x *QueryUserInfoResp) GetErrorMsg() string {
 	return ""
 }
 
-//查询活动详情请求
+// 查询活动详情请求
 type QueryActivityInfoReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -723,7 +723,7 @@ func (x *QueryActivityInfoReq) GetId() int32 {
 	return 0
 }
 
-//轮播图列表请求
+// 轮播图列表请求
 type QuerySwipersReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -762,7 +762,7 @@ func (*QuerySwipersReq) Descriptor() ([]byte, []int) {
 	return file_proto_reservation_proto_rawDescGZIP(), []int{7}
 }
 
-//轮播图列表返回
+// 轮播图列表返回
 type QuerySwipersResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -912,7 +912,7 @@ func (x *QueryActivityInfoResp) GetErrorMsg() string {
 	return ""
 }
 
-//查询MBTI请求
+// 查询MBTI请求
 type QueryMBTIReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -961,7 +961,7 @@ func (x *QueryMBTIReq) GetUuid() string {
 	return ""
 }
 
-//查询MBTI返回
+// 查询MBTI返回
 type QueryMBTIResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1292,7 +1292,7 @@ func (x *RegisterResp) GetErrorMsg() string {
 	return ""
 }
 
-//微信登录请求
+// 微信登录请求
 type WXLoginReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1359,7 +1359,7 @@ func (x *WXLoginReq) GetIv() string {
 	return ""
 }
 
-//微信登录返回
+// 微信登录返回
 type WXLoginResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1948,7 +1948,7 @@ func (x *QueryActivityListResp) GetErrorMsg() string {
 	return ""
 }
 
-//用户详情
+// 用户详情
 type User struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1982,6 +1982,12 @@ type User struct {
 	WechatNumber string `protobuf:"bytes,13,opt,name=wechatNumber,proto3" json:"wechatNumber,omitempty"`
 	//手机号
 	PhoneNumber string `protobuf:"bytes,14,opt,name=phoneNumber,proto3" json:"phoneNumber,omitempty"`
+	//应征数量
+	Enlist int32 `protobuf:"varint,15,opt,name=enlist,proto3" json:"enlist,omitempty"`
+	//应征者数量
+	Enlisted int32 `protobuf:"varint,16,opt,name=enlisted,proto3" json:"enlisted,omitempty"`
+	//我的活动数量
+	Activity int32 `protobuf:"varint,17,opt,name=activity,proto3" json:"activity,omitempty"`
 }
 
 func (x *User) Reset() {
@@ -2114,7 +2120,28 @@ func (x *User) GetPhoneNumber() string {
 	return ""
 }
 
-//轮播图
+func (x *User) GetEnlist() int32 {
+	if x != nil {
+		return x.Enlist
+	}
+	return 0
+}
+
+func (x *User) GetEnlisted() int32 {
+	if x != nil {
+		return x.Enlisted
+	}
+	return 0
+}
+
+func (x *User) GetActivity() int32 {
+	if x != nil {
+		return x.Activity
+	}
+	return 0
+}
+
+// 轮播图
 type Swiper struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2172,7 +2199,7 @@ func (x *Swiper) GetUrl() string {
 	return ""
 }
 
-//活动详情
+// 活动详情
 type Activity struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2320,7 +2347,7 @@ func (x *Activity) GetUpdatedAt() int64 {
 	return 0
 }
 
-//订单
+// 订单
 type Order struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2396,7 +2423,7 @@ func (x *Order) GetStatus() string {
 	return ""
 }
 
-//活动列表数据
+// 活动列表数据
 type QuerySwipersResp_Data struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2499,7 +2526,7 @@ func (x *WXLoginResp_Data) GetToken() string {
 	return ""
 }
 
-//活动列表数据
+// 活动列表数据
 type QueryOrderListResp_Data struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2592,7 +2619,7 @@ func (x *QueryOrderListResp_Data) GetTotal() int32 {
 	return 0
 }
 
-//活动列表数据
+// 活动列表数据
 type QueryActivityListByDayResp_Data struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2686,7 +2713,7 @@ func (x *QueryActivityListByDayResp_Data) GetTotal() int32 {
 	return 0
 }
 
-//活动列表数据
+// 活动列表数据
 type QueryActivityListResp_Data struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -3016,7 +3043,7 @@ var file_proto_reservation_proto_rawDesc = []byte{
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x52, 0x0c,
 	0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05,
 	0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x74, 0x6f, 0x74,
-	0x61, 0x6c, 0x22, 0xe3, 0x03, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69,
+	0x61, 0x6c, 0x22, 0xb3, 0x04, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69,
 	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x68,
 	0x65, 0x61, 0x64, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
 	0x68, 0x65, 0x61, 0x64, 0x49, 0x6d, 0x61, 0x67, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x6e, 0x69, 0x63,
@@ -3046,7 +3073,12 @@ var file_proto_reservation_proto_rawDesc = []byte{
 	0x65, 0x72, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x77, 0x65, 0x63, 0x68, 0x61, 0x74,
 	0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x20, 0x0a, 0x0b, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x4e,
 	0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x70, 0x68, 0x6f,
-	0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x22, 0x2c, 0x0a, 0x06, 0x53, 0x77, 0x69, 0x70,
+	0x6e, 0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x16, 0x0a, 0x06, 0x65, 0x6e, 0x6c, 0x69,
+	0x73, 0x74, 0x18, 0x0f, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x65, 0x6e, 0x6c, 0x69, 0x73, 0x74,
+	0x12, 0x1a, 0x0a, 0x08, 0x65, 0x6e, 0x6c, 0x69, 0x73, 0x74, 0x65, 0x64, 0x18, 0x10, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x08, 0x65, 0x6e, 0x6c, 0x69, 0x73, 0x74, 0x65, 0x64, 0x12, 0x1a, 0x0a, 0x08,
+	0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x18, 0x11, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08,
+	0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x22, 0x2c, 0x0a, 0x06, 0x53, 0x77, 0x69, 0x70,
 	0x65, 0x72, 0x12, 0x10, 0x0a, 0x03, 0x69, 0x6d, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x03, 0x69, 0x6d, 0x67, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x22, 0xc6, 0x02, 0x0a, 0x08, 0x41, 0x63, 0x74, 0x69, 0x76,

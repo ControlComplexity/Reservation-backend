@@ -7,6 +7,7 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 	"log"
 	"math"
@@ -35,7 +36,6 @@ var logger *zap.Logger
 
 func RunGRPCServer(config config.Config, ch chan string) error {
 	fmt.Print("version 34")
-
 	InitLogger()
 	interceptor := func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
 		if p, ok := req.(Validator); ok {
@@ -94,7 +94,14 @@ func RunHTTPServer(config *config.Config) error {
 	if err != nil {
 		log.Fatal("start http server failed" + err.Error())
 	}
-	gateway := runtime.NewServeMux()
+	//gateway := runtime.NewServeMux()
+
+	var md metadata.MD = make(metadata.MD)
+	gateway := runtime.NewServeMux(runtime.WithMetadata(func(ctx context.Context, r *http.Request) metadata.MD {
+		md.Set("token", r.Header.Get("token"))
+		return md
+	}))
+
 	err = api.RegisterReservationServiceHandler(context.Background(), gateway, conn)
 	if err != nil {
 		log.Fatal("start http server failed, " + err.Error())

@@ -55,6 +55,7 @@ func (svcImpl *apiServiceImpl) QueryUserInfo(ctx context.Context, req *api.Query
 			}, nil
 		}
 	}
+	fmt.Println("token: ", token)
 	return user.QueryUserInfo(token)
 }
 

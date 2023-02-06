@@ -3229,6 +3229,12 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for PhoneNumber
 
+	// no validation rules for Enlist
+
+	// no validation rules for Enlisted
+
+	// no validation rules for Activity
+
 	if len(errors) > 0 {
 		return UserMultiError(errors)
 	}

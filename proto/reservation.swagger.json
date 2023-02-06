@@ -1115,6 +1115,21 @@
         "phoneNumber": {
           "type": "string",
           "title": "手机号"
+        },
+        "enlist": {
+          "type": "integer",
+          "format": "int32",
+          "title": "应征数量"
+        },
+        "enlisted": {
+          "type": "integer",
+          "format": "int32",
+          "title": "应征者数量"
+        },
+        "activity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "我的活动数量"
         }
       },
       "title": "用户详情"

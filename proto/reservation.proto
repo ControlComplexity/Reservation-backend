@@ -433,7 +433,14 @@ message User{
   string wechatNumber = 13;
   //手机号
   string phoneNumber = 14;
+  //应征数量
+  int32 enlist = 15;
+  //应征者数量
+  int32  enlisted = 16;
+  //我的活动数量
+  int32 activity = 17;
 }
+
 enum Education{
   //高考统招本科
   UNIFIED_BACHELOR = 0;

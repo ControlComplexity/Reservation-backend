@@ -8,12 +8,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	jwt "github.com/dgrijalva/jwt-go"
 	"go.uber.org/zap"
+	"log"
 	"net/http"
 	"reservation/constant"
 	"reservation/dal"
 	"reservation/github.com/reservation/api"
+	jwts "reservation/jwt"
 	"reservation/model"
 	"strconv"
 )
@@ -25,20 +26,20 @@ func InitLogger() {
 
 var logger *zap.Logger
 
-// CreateToken 生成 JWT
-func CreateToken(id string) string {
-	fmt.Println("CreateToken id", id)
-	mySigningKey := []byte(id)
-	// Create the Claims
-	claims := &jwt.StandardClaims{
-		ExpiresAt: 15000,
-		Issuer:    "test",
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	ss, err := token.SignedString(mySigningKey)
-	fmt.Printf("%v %v", ss, err)
-	return ss
-}
+//// CreateToken 生成 JWT
+//func CreateToken(id string) string {
+//	fmt.Println("CreateToken id", id)
+//	mySigningKey := []byte(id)
+//	// Create the Claims
+//	claims := &jwt.StandardClaims{
+//		ExpiresAt: 15000,
+//		Issuer:    "test",
+//	}
+//	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+//	ss, err := token.SignedString(mySigningKey)
+//	fmt.Printf("%v %v", ss, err)
+//	return ss
+//}
 
 type WXLoginResp struct {
 	OpenId     string `json:"openid"`
@@ -100,9 +101,14 @@ func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
 		//用户存在，直接返回id
 		id = user.Id
 	}
+	token, e1 := jwts.GetToken(strconv.Itoa(int(id)))
+	fmt.Println("token: ", token)
+	if e != nil {
+		log.Fatal("failed to get token: ", e1.Error())
+	}
 	return &api.WXLoginResp{
 		Data: &api.WXLoginResp_Data{
-			Token: CreateToken(strconv.Itoa(int(id))),
+			Token: token,
 		},
 		Success:   true,
 		ErrorCode: constant.SUCCESS_ERROR_CODE,
@@ -209,7 +215,24 @@ func EditUser(req *api.EditUserReq) (*api.EditUserResp, error) {
 func QueryUserInfo(token string) (*api.QueryUserInfoResp, error) {
 	db := dal.Init()
 	var user model.UserDO
-	db.Model(&model.UserDO{}).Where("id = ? ", token).Find(&user).Limit(1)
+	c, e := jwts.ParseToken(token)
+	if e != nil {
+		return &api.QueryUserInfoResp{
+			Success:   false,
+			ErrorCode: constant.TOKEN_NOT_RIGHT,
+			ErrorMsg:  e.Error(),
+		}, nil
+	}
+	id, e2 := strconv.Atoi(c.Username)
+	if e2 != nil {
+		return &api.QueryUserInfoResp{
+			Success:   false,
+			ErrorCode: constant.TOKEN_NOT_RIGHT,
+			ErrorMsg:  e2.Error(),
+		}, nil
+	}
+	fmt.Println("id1111", id)
+	db.Model(&model.UserDO{}).Where("id = ? ", id).Find(&user).Limit(1)
 	fmt.Println("user: ", user)
 	u := api.User{
 		Id:              user.Id,
@@ -226,6 +249,43 @@ func QueryUserInfo(token string) (*api.QueryUserInfoResp, error) {
 		WechatNumber:    user.WechatNumber,
 		PhoneNumber:     user.PhoneNumber,
 	}
+	var activityCount int
+	err := db.Model(&model.OrderDO{}).Where("user_id = ?", id).
+		Limit(10).
+		Offset(3).
+		Limit(-1).
+		Offset(-1).
+		Count(&activityCount).
+		Error
+	if err != nil {
+		log.Fatalln("failed to get activity count: ", err.Error())
+	}
+	u.Activity = int32(activityCount)
+	var enlistCount int
+	err = db.Model(&model.EnlistDO{}).Where("user_1_id = ?", id).
+		Limit(10).
+		Offset(3).
+		Limit(-1).
+		Offset(-1).
+		Count(&enlistCount).
+		Error
+	if err != nil {
+		log.Fatalln("failed to get enlist count: ", err.Error())
+	}
+	u.Enlist = int32(enlistCount)
+	var enlistedCount int
+	err = db.Model(&model.EnlistDO{}).Where("user_1_id = ?", id).
+		Limit(10).
+		Offset(3).
+		Limit(-1).
+		Offset(-1).
+		Count(&enlistedCount).
+		Error
+	if err != nil {
+		log.Fatalln("failed to get enlisted count: ", err.Error())
+	}
+	u.Enlisted = int32(enlistedCount)
+
 	return &api.QueryUserInfoResp{
 		Data:      &u,
 		Success:   true,

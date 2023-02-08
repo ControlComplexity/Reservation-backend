@@ -32,21 +32,10 @@ func QueryActivityInfo(req *api.QueryActivityInfoReq) (*api.QueryActivityInfoRes
 	db.Model(&model.ActivityDO{}).Where("activity_id = ? ", req.Id).Find(&ac).Limit(1)
 	fmt.Println("ac:", ac)
 
-	activity := api.Activity{
-		Id:          ac.Id,
-		Name:        ac.Name,
-		Label:       strings.Split(ac.Label, ","),
-		Price:       ac.Price,
-		Time:        utils.Time2String(ac.Time),
-		Location:    ac.Location,
-		SmallImg:    ac.SmallImg,
-		BigImg:      ac.BigImg,
-		Description: ac.Description,
-		CreatedAt:   utils.Time2Milli(ac.CreatedAt),
-		UpdatedAt:   utils.Time2Milli(ac.UpdatedAt),
-	}
+	activity := utils.CvtDataStructure(ac)
+	r := activity.(api.Activity)
 	return &api.QueryActivityInfoResp{
-		Data:      &activity,
+		Data:      &r,
 		Success:   true,
 		ErrorCode: constant.SUCCESS_ERROR_CODE,
 	}, nil
@@ -81,7 +70,6 @@ func QueryActivityList() (*api.QueryActivityListResp, error) {
 	fmt.Println("activities:", activities)
 	activitySlice := make([]*api.Activity, 0)
 	for _, ac := range activities {
-
 		activitySlice = append(activitySlice, &api.Activity{
 			Id:          ac.Id,
 			Name:        ac.Name,

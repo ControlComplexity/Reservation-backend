@@ -843,6 +843,164 @@ var _ interface {
 	ErrorName() string
 } = QueryDetailsReqValidationError{}
 
+// Validate checks the field values on CompleteUserData with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *CompleteUserData) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CompleteUserData with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CompleteUserDataMultiError, or nil if none found.
+func (m *CompleteUserData) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CompleteUserData) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetUser()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CompleteUserDataValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CompleteUserDataValidationError{
+					field:  "User",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetUser()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CompleteUserDataValidationError{
+				field:  "User",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetCount()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CompleteUserDataValidationError{
+					field:  "Count",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CompleteUserDataValidationError{
+					field:  "Count",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCount()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return CompleteUserDataValidationError{
+				field:  "Count",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return CompleteUserDataMultiError(errors)
+	}
+
+	return nil
+}
+
+// CompleteUserDataMultiError is an error wrapping multiple validation errors
+// returned by CompleteUserData.ValidateAll() if the designated constraints
+// aren't met.
+type CompleteUserDataMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CompleteUserDataMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CompleteUserDataMultiError) AllErrors() []error { return m }
+
+// CompleteUserDataValidationError is the validation error returned by
+// CompleteUserData.Validate if the designated constraints aren't met.
+type CompleteUserDataValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CompleteUserDataValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CompleteUserDataValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CompleteUserDataValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CompleteUserDataValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CompleteUserDataValidationError) ErrorName() string { return "CompleteUserDataValidationError" }
+
+// Error satisfies the builtin error interface
+func (e CompleteUserDataValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCompleteUserData.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CompleteUserDataValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CompleteUserDataValidationError{}
+
 // Validate checks the field values on QueryDetailsResp with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
@@ -3664,12 +3822,6 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for PhoneNumber
 
-	// no validation rules for Enlist
-
-	// no validation rules for Enlisted
-
-	// no validation rules for Activity
-
 	if len(errors) > 0 {
 		return UserMultiError(errors)
 	}
@@ -3746,6 +3898,110 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = UserValidationError{}
+
+// Validate checks the field values on Count with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Count) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Count with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in CountMultiError, or nil if none found.
+func (m *Count) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Count) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Enlist
+
+	// no validation rules for Enlisted
+
+	// no validation rules for Activity
+
+	if len(errors) > 0 {
+		return CountMultiError(errors)
+	}
+
+	return nil
+}
+
+// CountMultiError is an error wrapping multiple validation errors returned by
+// Count.ValidateAll() if the designated constraints aren't met.
+type CountMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CountMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CountMultiError) AllErrors() []error { return m }
+
+// CountValidationError is the validation error returned by Count.Validate if
+// the designated constraints aren't met.
+type CountValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CountValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CountValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CountValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CountValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CountValidationError) ErrorName() string { return "CountValidationError" }
+
+// Error satisfies the builtin error interface
+func (e CountValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCount.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CountValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CountValidationError{}
 
 // Validate checks the field values on Swiper with the rules defined in the
 // proto definition for this message. If any rules are violated, the first

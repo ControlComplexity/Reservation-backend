@@ -16,6 +16,7 @@ import (
 	"reservation/github.com/reservation/api"
 	jwts "reservation/jwt"
 	"reservation/model"
+	"reservation/utils"
 	"strconv"
 )
 
@@ -231,44 +232,43 @@ func QueryDetails(token string) (*api.QueryDetailsResp, error) {
 		}, nil
 	}
 	fmt.Println("id1111", id)
+	var activities []model.ActivityDO
+	sql := "select * from activity where activity_id in (select activity_id from orders where user_id = " + strconv.Itoa(id) + ")"
+	db.Model(&model.ActivityDO{}).Raw(sql).Find(&activities)
+	fmt.Println("activities: ", activities)
+	acs := make([]*api.Activity, 0)
+	for _, ac := range activities {
+		a := utils.CvtDataStructure(ac).(api.Activity)
+		acs = append(acs, &a)
+	}
+	sql = "select * from user where id in (select id from enlist where user_1_id = " + strconv.Itoa(id) + ")"
+	var enlist []model.UserDO
+	db.Model(&model.UserDO{}).Raw(sql).Find(&enlist)
+	fmt.Println("enlist: ", enlist)
 
-	var activityCount int
-	err := db.Model(&model.OrderDO{}).Where("user_id = ?", id).
-		Limit(10).
-		Offset(3).
-		Limit(-1).
-		Offset(-1).
-		Count(&activityCount).
-		Error
-	if err != nil {
-		log.Fatalln("failed to get activity count: ", err.Error())
+	user1s := make([]*api.User, 0)
+	for _, en := range enlist {
+		u := utils.CvtDataStructure(en).(api.User)
+		user1s = append(user1s, &u)
 	}
 
-	var enlistCount int
-	err = db.Model(&model.EnlistDO{}).Where("user_1_id = ?", id).
-		Limit(10).
-		Offset(3).
-		Limit(-1).
-		Offset(-1).
-		Count(&enlistCount).
-		Error
-	if err != nil {
-		log.Fatalln("failed to get enlist count: ", err.Error())
-	}
+	sql = "select * from user where id in (select id from enlist where user_2_id = " + strconv.Itoa(id) + ")"
+	var enlisted []model.UserDO
+	db.Model(&model.UserDO{}).Raw(sql).Find(&enlisted)
+	fmt.Println("enlisted: ", enlisted)
 
-	var enlistedCount int
-	err = db.Model(&model.EnlistDO{}).Where("user_1_id = ?", id).
-		Limit(10).
-		Offset(3).
-		Limit(-1).
-		Offset(-1).
-		Count(&enlistedCount).
-		Error
-	if err != nil {
-		log.Fatalln("failed to get enlisted count: ", err.Error())
+	user2s := make([]*api.User, 0)
+	for _, en := range enlisted {
+		u := utils.CvtDataStructure(en).(api.User)
+		user1s = append(user2s, &u)
 	}
 
 	return &api.QueryDetailsResp{
+		Data: &api.Detail{
+			Activities: acs,
+			Enlist:     user1s,
+			Enlisted:   user2s,
+		},
 		Success:   true,
 		ErrorCode: constant.SUCCESS_ERROR_CODE,
 	}, nil
@@ -294,26 +294,11 @@ func QueryUserInfo(token string) (*api.QueryUserInfoResp, error) {
 			ErrorMsg:  e2.Error(),
 		}, nil
 	}
-	fmt.Println("id1111", id)
 	db.Model(&model.UserDO{}).Where("id = ? ", id).Find(&user).Limit(1)
-	fmt.Println("user: ", user)
-	u := api.User{
-		Id:              user.Id,
-		HeadImage:       user.HeadImage,
-		NickName:        user.NickName,
-		Gender:          api.Gender(api.Gender_value[user.Gender]),
-		Height:          user.Height,
-		Weight:          user.Weight,
-		Hometown:        user.Hometown,
-		Location:        user.Location,
-		EmotionalStatus: api.EmotionalStatus(api.EmotionalStatus_value[user.EmotionalStatus]),
-		Education:       api.Education(api.Education_value[user.Education]),
-		University:      user.University,
-		WechatNumber:    user.WechatNumber,
-		PhoneNumber:     user.PhoneNumber,
-	}
+	u := utils.CvtDataStructure(user).(api.User)
 	var activityCount int
-	err := db.Model(&model.OrderDO{}).Where("user_id = ?", id).
+	err := db.Model(&model.OrderDO{}).
+		Where("user_id = ?", id).
 		Limit(10).
 		Offset(3).
 		Limit(-1).
@@ -323,7 +308,8 @@ func QueryUserInfo(token string) (*api.QueryUserInfoResp, error) {
 	if err != nil {
 		log.Fatalln("failed to get activity count: ", err.Error())
 	}
-	u.Activity = int32(activityCount)
+	var count api.Count
+	count.Activity = int32(activityCount)
 	var enlistCount int
 	err = db.Model(&model.EnlistDO{}).Where("user_1_id = ?", id).
 		Limit(10).
@@ -335,7 +321,7 @@ func QueryUserInfo(token string) (*api.QueryUserInfoResp, error) {
 	if err != nil {
 		log.Fatalln("failed to get enlist count: ", err.Error())
 	}
-	u.Enlist = int32(enlistCount)
+	count.Enlist = int32(enlistCount)
 	var enlistedCount int
 	err = db.Model(&model.EnlistDO{}).Where("user_1_id = ?", id).
 		Limit(10).
@@ -347,10 +333,13 @@ func QueryUserInfo(token string) (*api.QueryUserInfoResp, error) {
 	if err != nil {
 		log.Fatalln("failed to get enlisted count: ", err.Error())
 	}
-	u.Enlisted = int32(enlistedCount)
+	count.Enlisted = int32(enlistedCount)
 
 	return &api.QueryUserInfoResp{
-		Data:      &u,
+		Data: &api.CompleteUserData{
+			User:  &u,
+			Count: &count,
+		},
 		Success:   true,
 		ErrorCode: constant.SUCCESS_ERROR_CODE,
 	}, nil

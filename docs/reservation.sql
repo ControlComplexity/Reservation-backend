@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80031
 File Encoding         : 65001
 
-Date: 2023-01-23 16:28:53
+Date: 2023-02-08 20:41:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -46,10 +46,27 @@ INSERT INTO `activity` VALUES ('5', '乒乓球', '#运动', '120', '2023-01-18 2
 INSERT INTO `activity` VALUES ('6', '狼人杀', '#游戏', '50', '2023-01-18 22:42:05', '上海市浦东新区金山饭店', 'https://img.haote.com/upload/news/20210325/161666440651353.jpeg', 'https://img.haote.com/upload/news/20210325/161666440651353.jpeg', '狼人杀一决高下', '2023-01-18 22:42:05', '2023-01-18 22:42:05', '2022-12-24 19:27:38');
 
 -- ----------------------------
--- Table structure for order
+-- Table structure for enlist
 -- ----------------------------
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE `order` (
+DROP TABLE IF EXISTS `enlist`;
+CREATE TABLE `enlist` (
+  `id` int NOT NULL,
+  `user_1_id` int DEFAULT NULL,
+  `user_2_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of enlist
+-- ----------------------------
+INSERT INTO `enlist` VALUES ('1', '2', '1');
+INSERT INTO `enlist` VALUES ('2', '1', '2');
+
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
   `order_id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
   `activity_id` int DEFAULT NULL,
@@ -57,9 +74,27 @@ CREATE TABLE `order` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
--- Records of order
+-- Records of orders
 -- ----------------------------
-INSERT INTO `order` VALUES ('1', '1', '1');
+INSERT INTO `orders` VALUES ('1', '1', '1');
+
+-- ----------------------------
+-- Table structure for swiper
+-- ----------------------------
+DROP TABLE IF EXISTS `swiper`;
+CREATE TABLE `swiper` (
+  `img` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of swiper
+-- ----------------------------
+INSERT INTO `swiper` VALUES ('../../static/swiper1.jpg', 'www.baidu.com');
+INSERT INTO `swiper` VALUES ('../../static/swiper1.jpg', 'www.baidu.com');
+INSERT INTO `swiper` VALUES ('../../static/swiper1.jpg', 'www.baidu.com');
+INSERT INTO `swiper` VALUES ('../../static/swiper1.jpg', 'www.baidu.com');
+INSERT INTO `swiper` VALUES ('../../static/swiper1.jpg', 'www.baidu.com');
 
 -- ----------------------------
 -- Table structure for user
@@ -85,8 +120,10 @@ CREATE TABLE `user` (
   `created_at` timestamp(6) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
   `updated_at` timestamp(6) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+INSERT INTO `user` VALUES ('1', null, 'fang', 'male', '185', '71', '上海金山', 'SINGLE_WITHOUT_MARRIAGE_HISTORY', 'UNIFIED_BACHELOR', '清华大学', null, '新东方', '13167266118', '13167266118', null, null, '2023-01-26 15:35:47.526815', '2023-01-26 15:35:47.521738');
+INSERT INTO `user` VALUES ('2', null, 'sdsdfds', null, '0', '0', null, null, null, null, null, null, null, '13166661111', 'oVGbv5EAoFhF5aHVr5tQaF5xrTec', null, '2023-02-01 12:52:31.915880', '2023-02-01 12:52:31.915880');

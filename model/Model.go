@@ -9,7 +9,7 @@ var (
 	activityTableName = "activity"
 	userTableName     = "user"
 	enlistTableName   = "enlist"
-	orderTableName    = "order"
+	orderTableName    = "orders"
 )
 
 type Model struct {

@@ -172,7 +172,7 @@ message QueryUserInfoReq{
 //查询用户信息返回
 message QueryUserInfoResp{
   //用户数据
-  User data = 1;
+  CompleteUserData data = 1;
   // 是否成功访问
   bool success = 2;
   // 错误码
@@ -183,6 +183,11 @@ message QueryUserInfoResp{
 
 //查询详情，包括应征、应征者、活动请求
 message QueryDetailsReq{
+}
+//用户完整数据
+message CompleteUserData{
+  User user = 1;
+  Count count = 2;
 }
 
 //查询详情，包括应征、应征者、活动返回
@@ -470,12 +475,15 @@ message User{
   string wechatNumber = 13;
   //手机号
   string phoneNumber = 14;
+}
+//数据量
+message Count{
   //应征数量
-  int32 enlist = 15;
+  int32 enlist = 1;
   //应征者数量
-  int32  enlisted = 16;
+  int32  enlisted = 2;
   //我的活动数量
-  int32 activity = 17;
+  int32 activity = 3;
 }
 
 enum Education{

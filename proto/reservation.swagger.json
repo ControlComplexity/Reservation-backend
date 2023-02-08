@@ -486,6 +486,39 @@
       },
       "title": "活动详情"
     },
+    "reservationCompleteUserData": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/reservationUser"
+        },
+        "count": {
+          "$ref": "#/definitions/reservationCount"
+        }
+      },
+      "title": "用户完整数据"
+    },
+    "reservationCount": {
+      "type": "object",
+      "properties": {
+        "enlist": {
+          "type": "integer",
+          "format": "int32",
+          "title": "应征数量"
+        },
+        "enlisted": {
+          "type": "integer",
+          "format": "int32",
+          "title": "应征者数量"
+        },
+        "activity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "我的活动数量"
+        }
+      },
+      "title": "数据量"
+    },
     "reservationDetail": {
       "type": "object",
       "properties": {
@@ -1074,7 +1107,7 @@
       "type": "object",
       "properties": {
         "data": {
-          "$ref": "#/definitions/reservationUser",
+          "$ref": "#/definitions/reservationCompleteUserData",
           "title": "用户数据"
         },
         "success": {
@@ -1187,21 +1220,6 @@
         "phoneNumber": {
           "type": "string",
           "title": "手机号"
-        },
-        "enlist": {
-          "type": "integer",
-          "format": "int32",
-          "title": "应征数量"
-        },
-        "enlisted": {
-          "type": "integer",
-          "format": "int32",
-          "title": "应征者数量"
-        },
-        "activity": {
-          "type": "integer",
-          "format": "int32",
-          "title": "我的活动数量"
         }
       },
       "title": "用户详情"

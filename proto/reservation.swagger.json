@@ -171,6 +171,29 @@
         ]
       }
     },
+    "/v1/query/details": {
+      "get": {
+        "summary": "查询详情，包括应征、应征者、活动",
+        "operationId": "ReservationService_QueryDetails",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reservationQueryDetailsResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "ReservationService"
+        ]
+      }
+    },
     "/v1/query/order_list": {
       "post": {
         "summary": "查询订单接口",
@@ -462,6 +485,33 @@
         }
       },
       "title": "活动详情"
+    },
+    "reservationDetail": {
+      "type": "object",
+      "properties": {
+        "activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reservationActivity"
+          },
+          "title": "活动"
+        },
+        "enlist": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reservationUser"
+          },
+          "title": "应征"
+        },
+        "enlisted": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reservationUser"
+          },
+          "title": "被应征"
+        }
+      },
+      "title": "详情，包括应征、应征者、活动"
     },
     "reservationEditUserReq": {
       "type": "object",
@@ -869,6 +919,28 @@
         }
       },
       "title": "活动列表数据"
+    },
+    "reservationQueryDetailsResp": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/reservationDetail",
+          "title": "用户数据"
+        },
+        "success": {
+          "type": "boolean",
+          "title": "是否成功访问"
+        },
+        "errorCode": {
+          "type": "string",
+          "title": "错误码"
+        },
+        "errorMsg": {
+          "type": "string",
+          "title": "错误详情"
+        }
+      },
+      "title": "查询详情，包括应征、应征者、活动返回"
     },
     "reservationQueryMBTIResp": {
       "type": "object",

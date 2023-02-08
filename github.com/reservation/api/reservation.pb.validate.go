@@ -743,6 +743,441 @@ var _ interface {
 	ErrorName() string
 } = QueryUserInfoRespValidationError{}
 
+// Validate checks the field values on QueryDetailsReq with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *QueryDetailsReq) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryDetailsReq with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QueryDetailsReqMultiError, or nil if none found.
+func (m *QueryDetailsReq) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryDetailsReq) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return QueryDetailsReqMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryDetailsReqMultiError is an error wrapping multiple validation errors
+// returned by QueryDetailsReq.ValidateAll() if the designated constraints
+// aren't met.
+type QueryDetailsReqMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryDetailsReqMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryDetailsReqMultiError) AllErrors() []error { return m }
+
+// QueryDetailsReqValidationError is the validation error returned by
+// QueryDetailsReq.Validate if the designated constraints aren't met.
+type QueryDetailsReqValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryDetailsReqValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryDetailsReqValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryDetailsReqValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryDetailsReqValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryDetailsReqValidationError) ErrorName() string { return "QueryDetailsReqValidationError" }
+
+// Error satisfies the builtin error interface
+func (e QueryDetailsReqValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryDetailsReq.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryDetailsReqValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryDetailsReqValidationError{}
+
+// Validate checks the field values on QueryDetailsResp with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *QueryDetailsResp) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on QueryDetailsResp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// QueryDetailsRespMultiError, or nil if none found.
+func (m *QueryDetailsResp) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *QueryDetailsResp) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetData()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, QueryDetailsRespValidationError{
+					field:  "Data",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, QueryDetailsRespValidationError{
+					field:  "Data",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return QueryDetailsRespValidationError{
+				field:  "Data",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Success
+
+	// no validation rules for ErrorCode
+
+	// no validation rules for ErrorMsg
+
+	if len(errors) > 0 {
+		return QueryDetailsRespMultiError(errors)
+	}
+
+	return nil
+}
+
+// QueryDetailsRespMultiError is an error wrapping multiple validation errors
+// returned by QueryDetailsResp.ValidateAll() if the designated constraints
+// aren't met.
+type QueryDetailsRespMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m QueryDetailsRespMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m QueryDetailsRespMultiError) AllErrors() []error { return m }
+
+// QueryDetailsRespValidationError is the validation error returned by
+// QueryDetailsResp.Validate if the designated constraints aren't met.
+type QueryDetailsRespValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e QueryDetailsRespValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e QueryDetailsRespValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e QueryDetailsRespValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e QueryDetailsRespValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e QueryDetailsRespValidationError) ErrorName() string { return "QueryDetailsRespValidationError" }
+
+// Error satisfies the builtin error interface
+func (e QueryDetailsRespValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sQueryDetailsResp.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = QueryDetailsRespValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = QueryDetailsRespValidationError{}
+
+// Validate checks the field values on Detail with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Detail) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Detail with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in DetailMultiError, or nil if none found.
+func (m *Detail) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Detail) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetActivities() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, DetailValidationError{
+						field:  fmt.Sprintf("Activities[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, DetailValidationError{
+						field:  fmt.Sprintf("Activities[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DetailValidationError{
+					field:  fmt.Sprintf("Activities[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetEnlist() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, DetailValidationError{
+						field:  fmt.Sprintf("Enlist[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, DetailValidationError{
+						field:  fmt.Sprintf("Enlist[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DetailValidationError{
+					field:  fmt.Sprintf("Enlist[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetEnlisted() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, DetailValidationError{
+						field:  fmt.Sprintf("Enlisted[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, DetailValidationError{
+						field:  fmt.Sprintf("Enlisted[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DetailValidationError{
+					field:  fmt.Sprintf("Enlisted[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return DetailMultiError(errors)
+	}
+
+	return nil
+}
+
+// DetailMultiError is an error wrapping multiple validation errors returned by
+// Detail.ValidateAll() if the designated constraints aren't met.
+type DetailMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DetailMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DetailMultiError) AllErrors() []error { return m }
+
+// DetailValidationError is the validation error returned by Detail.Validate if
+// the designated constraints aren't met.
+type DetailValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DetailValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DetailValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DetailValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DetailValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DetailValidationError) ErrorName() string { return "DetailValidationError" }
+
+// Error satisfies the builtin error interface
+func (e DetailValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDetail.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DetailValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DetailValidationError{}
+
 // Validate checks the field values on QueryActivityInfoReq with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.

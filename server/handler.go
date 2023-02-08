@@ -59,6 +59,24 @@ func (svcImpl *apiServiceImpl) QueryUserInfo(ctx context.Context, req *api.Query
 	return user.QueryUserInfo(token)
 }
 
+// QueryDetails 查询详情，包括应征、应征者、活动
+func (svcImpl *apiServiceImpl) QueryDetails(ctx context.Context, req *api.QueryDetailsReq) (*api.QueryDetailsResp, error) {
+	var token string
+	if headers, ok := metadata.FromIncomingContext(ctx); ok {
+		res := headers.Get(constant.TOKEN)
+		if res != nil && len(res) > 0 {
+			token = res[0]
+		} else {
+			return &api.QueryDetailsResp{
+				Success:  false,
+				ErrorMsg: "token 不存在",
+			}, nil
+		}
+	}
+	fmt.Println("token: ", token)
+	return user.QueryDetails(token)
+}
+
 // Register 注册
 func (svcImpl *apiServiceImpl) Register(ctx context.Context, req *api.RegisterReq) (*api.RegisterResp, error) {
 	return user.Register(req)

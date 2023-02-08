@@ -31,6 +31,14 @@ service ReservationService {
       get: "/v1/query/user"
     };
   }
+
+  //查询详情，包括应征、应征者、活动
+  rpc QueryDetails (QueryDetailsReq)returns (QueryDetailsResp){
+    option (google.api.http) = {
+      get: "/v1/query/details"
+    };
+  }
+
   //微信登录
   rpc WXLogin (WXLoginReq)returns (WXLoginResp){
     option (google.api.http) = {
@@ -87,6 +95,7 @@ service ReservationService {
       body: "*"
     };
   }
+
   // 获取某一天的可参加的活动列表
   rpc QueryActivityListByDay(QueryActivityListByDayReq) returns (QueryActivityListByDayResp) {
     option (google.api.http) = {
@@ -171,6 +180,34 @@ message QueryUserInfoResp{
   // 错误详情
   string errorMsg = 4;
 }
+
+//查询详情，包括应征、应征者、活动请求
+message QueryDetailsReq{
+}
+
+//查询详情，包括应征、应征者、活动返回
+message QueryDetailsResp{
+  //用户数据
+  Detail data = 1;
+  // 是否成功访问
+  bool success = 2;
+  // 错误码
+  string errorCode = 3;
+  // 错误详情
+  string errorMsg = 4;
+}
+
+//详情，包括应征、应征者、活动
+message Detail{
+  //活动
+ repeated Activity activities = 1;
+ //应征
+ repeated User     enlist = 2;
+ //被应征
+ repeated User    enlisted = 3;
+
+}
+
 
 //查询活动详情请求
 message QueryActivityInfoReq{

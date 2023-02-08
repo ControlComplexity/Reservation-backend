@@ -30,6 +30,8 @@ type ReservationServiceClient interface {
 	EditUser(ctx context.Context, in *EditUserReq, opts ...grpc.CallOption) (*EditUserResp, error)
 	//查询用户信息
 	QueryUserInfo(ctx context.Context, in *QueryUserInfoReq, opts ...grpc.CallOption) (*QueryUserInfoResp, error)
+	//查询详情，包括应征、应征者、活动
+	QueryDetails(ctx context.Context, in *QueryDetailsReq, opts ...grpc.CallOption) (*QueryDetailsResp, error)
 	//微信登录
 	WXLogin(ctx context.Context, in *WXLoginReq, opts ...grpc.CallOption) (*WXLoginResp, error)
 	//生成MBTI
@@ -88,6 +90,15 @@ func (c *reservationServiceClient) EditUser(ctx context.Context, in *EditUserReq
 func (c *reservationServiceClient) QueryUserInfo(ctx context.Context, in *QueryUserInfoReq, opts ...grpc.CallOption) (*QueryUserInfoResp, error) {
 	out := new(QueryUserInfoResp)
 	err := c.cc.Invoke(ctx, "/reservation.ReservationService/QueryUserInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reservationServiceClient) QueryDetails(ctx context.Context, in *QueryDetailsReq, opts ...grpc.CallOption) (*QueryDetailsResp, error) {
+	out := new(QueryDetailsResp)
+	err := c.cc.Invoke(ctx, "/reservation.ReservationService/QueryDetails", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -187,6 +198,8 @@ type ReservationServiceServer interface {
 	EditUser(context.Context, *EditUserReq) (*EditUserResp, error)
 	//查询用户信息
 	QueryUserInfo(context.Context, *QueryUserInfoReq) (*QueryUserInfoResp, error)
+	//查询详情，包括应征、应征者、活动
+	QueryDetails(context.Context, *QueryDetailsReq) (*QueryDetailsResp, error)
 	//微信登录
 	WXLogin(context.Context, *WXLoginReq) (*WXLoginResp, error)
 	//生成MBTI
@@ -223,6 +236,9 @@ func (UnimplementedReservationServiceServer) EditUser(context.Context, *EditUser
 }
 func (UnimplementedReservationServiceServer) QueryUserInfo(context.Context, *QueryUserInfoReq) (*QueryUserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryUserInfo not implemented")
+}
+func (UnimplementedReservationServiceServer) QueryDetails(context.Context, *QueryDetailsReq) (*QueryDetailsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryDetails not implemented")
 }
 func (UnimplementedReservationServiceServer) WXLogin(context.Context, *WXLoginReq) (*WXLoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WXLogin not implemented")
@@ -332,6 +348,24 @@ func _ReservationService_QueryUserInfo_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ReservationServiceServer).QueryUserInfo(ctx, req.(*QueryUserInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ReservationService_QueryDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryDetailsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReservationServiceServer).QueryDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/reservation.ReservationService/QueryDetails",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReservationServiceServer).QueryDetails(ctx, req.(*QueryDetailsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -520,6 +554,10 @@ var ReservationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "QueryUserInfo",
 			Handler:    _ReservationService_QueryUserInfo_Handler,
+		},
+		{
+			MethodName: "QueryDetails",
+			Handler:    _ReservationService_QueryDetails_Handler,
 		},
 		{
 			MethodName: "WXLogin",

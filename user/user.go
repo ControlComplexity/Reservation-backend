@@ -211,6 +211,69 @@ func EditUser(req *api.EditUserReq) (*api.EditUserResp, error) {
 	}
 }
 
+// QueryDetails 查询详情，包括应征、应征者、活动
+func QueryDetails(token string) (*api.QueryDetailsResp, error) {
+	db := dal.Init()
+	c, e := jwts.ParseToken(token)
+	if e != nil {
+		return &api.QueryDetailsResp{
+			Success:   false,
+			ErrorCode: constant.TOKEN_NOT_RIGHT,
+			ErrorMsg:  e.Error(),
+		}, nil
+	}
+	id, e2 := strconv.Atoi(c.Username)
+	if e2 != nil {
+		return &api.QueryDetailsResp{
+			Success:   false,
+			ErrorCode: constant.TOKEN_NOT_RIGHT,
+			ErrorMsg:  e2.Error(),
+		}, nil
+	}
+	fmt.Println("id1111", id)
+
+	var activityCount int
+	err := db.Model(&model.OrderDO{}).Where("user_id = ?", id).
+		Limit(10).
+		Offset(3).
+		Limit(-1).
+		Offset(-1).
+		Count(&activityCount).
+		Error
+	if err != nil {
+		log.Fatalln("failed to get activity count: ", err.Error())
+	}
+
+	var enlistCount int
+	err = db.Model(&model.EnlistDO{}).Where("user_1_id = ?", id).
+		Limit(10).
+		Offset(3).
+		Limit(-1).
+		Offset(-1).
+		Count(&enlistCount).
+		Error
+	if err != nil {
+		log.Fatalln("failed to get enlist count: ", err.Error())
+	}
+
+	var enlistedCount int
+	err = db.Model(&model.EnlistDO{}).Where("user_1_id = ?", id).
+		Limit(10).
+		Offset(3).
+		Limit(-1).
+		Offset(-1).
+		Count(&enlistedCount).
+		Error
+	if err != nil {
+		log.Fatalln("failed to get enlisted count: ", err.Error())
+	}
+
+	return &api.QueryDetailsResp{
+		Success:   true,
+		ErrorCode: constant.SUCCESS_ERROR_CODE,
+	}, nil
+}
+
 // QueryUserInfo 查询用户信息
 func QueryUserInfo(token string) (*api.QueryUserInfoResp, error) {
 	db := dal.Init()

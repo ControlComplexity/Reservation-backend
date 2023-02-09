@@ -3800,6 +3800,8 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for NickName
 
+	// no validation rules for BirthDate
+
 	// no validation rules for Gender
 
 	// no validation rules for Height

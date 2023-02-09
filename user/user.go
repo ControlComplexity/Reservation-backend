@@ -104,7 +104,7 @@ func WXLogin(req *api.WXLoginReq) (*api.WXLoginResp, error) {
 	}
 	token, e1 := jwts.GetToken(strconv.Itoa(int(id)))
 	fmt.Println("token: ", token)
-	if e != nil {
+	if e1 != nil {
 		log.Fatal("failed to get token: ", e1.Error())
 	}
 	return &api.WXLoginResp{

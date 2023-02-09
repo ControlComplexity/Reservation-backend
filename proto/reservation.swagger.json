@@ -1175,6 +1175,10 @@
           "type": "string",
           "title": "昵称"
         },
+        "birthDate": {
+          "type": "string",
+          "title": "出生日期"
+        },
         "gender": {
           "$ref": "#/definitions/reservationGender",
           "title": "性别"

@@ -38,6 +38,7 @@ type UserDO struct {
 	Model
 	HeadImage       string    `gorm:"column:head_image;type:varchar(50);index;not null;default:'';comment:头像"`
 	NickName        string    `gorm:"column:nick_name;type:varchar(50);index;not null;default:'';comment:昵称"`
+	BirthDate       string    `gorm:"column:birth_date;type:varchar(10);index;not null;default:'';comment:出生日期"`
 	Gender          string    `gorm:"type:enum('male', 'female');default:'male';comment:性别"`
 	Height          int32     `gorm:"column:height;type:int;comment:身高(cm)"`
 	Weight          int32     `gorm:"column:weight;type:int;comment:体重(kg)"`

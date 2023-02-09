@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80031
 File Encoding         : 65001
 
-Date: 2023-02-08 20:41:41
+Date: 2023-02-09 20:34:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -60,7 +60,8 @@ CREATE TABLE `enlist` (
 -- Records of enlist
 -- ----------------------------
 INSERT INTO `enlist` VALUES ('1', '2', '1');
-INSERT INTO `enlist` VALUES ('2', '1', '2');
+INSERT INTO `enlist` VALUES ('2', '2', '3');
+INSERT INTO `enlist` VALUES ('3', '4', '2');
 
 -- ----------------------------
 -- Table structure for orders
@@ -71,12 +72,16 @@ CREATE TABLE `orders` (
   `user_id` int DEFAULT NULL,
   `activity_id` int DEFAULT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
 INSERT INTO `orders` VALUES ('1', '1', '1');
+INSERT INTO `orders` VALUES ('2', '1', '2');
+INSERT INTO `orders` VALUES ('3', '2', '1');
+INSERT INTO `orders` VALUES ('4', '2', '2');
+INSERT INTO `orders` VALUES ('5', '2', '4');
 
 -- ----------------------------
 -- Table structure for swiper
@@ -104,6 +109,7 @@ CREATE TABLE `user` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `head_image` varchar(255) DEFAULT NULL,
   `nick_name` varchar(255) DEFAULT NULL,
+  `birth_date` varchar(20) DEFAULT NULL,
   `gender` enum('male','female') DEFAULT NULL,
   `height` int DEFAULT NULL,
   `weight` int DEFAULT NULL,
@@ -125,5 +131,5 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', null, 'fang', 'male', '185', '71', '上海金山', 'SINGLE_WITHOUT_MARRIAGE_HISTORY', 'UNIFIED_BACHELOR', '清华大学', null, '新东方', '13167266118', '13167266118', null, null, '2023-01-26 15:35:47.526815', '2023-01-26 15:35:47.521738');
-INSERT INTO `user` VALUES ('2', null, 'sdsdfds', null, '0', '0', null, null, null, null, null, null, null, '13166661111', 'oVGbv5EAoFhF5aHVr5tQaF5xrTec', null, '2023-02-01 12:52:31.915880', '2023-02-01 12:52:31.915880');
+INSERT INTO `user` VALUES ('1', null, 'fang', '1999-12-12', 'male', '185', '71', '上海金山', 'SINGLE_WITHOUT_MARRIAGE_HISTORY', 'UNIFIED_BACHELOR', '清华大学', null, '新东方', '13167266118', '13167266118', null, null, '2023-02-09 20:33:26.398863', '2023-02-09 20:33:26.398863');
+INSERT INTO `user` VALUES ('2', null, 'sdsdfds', '1989-02-12', 'female', '163', '0', null, null, null, null, null, null, null, '13166661111', 'oVGbv5EAoFhF5aHVr5tQaF5xrTec', null, '2023-02-09 20:33:46.013159', '2023-02-09 20:33:46.013159');

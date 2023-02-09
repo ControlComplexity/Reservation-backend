@@ -453,28 +453,30 @@ message User{
   string headImage = 2;
   // 昵称
   string nickName = 3;
+  //出生日期
+  string birthDate = 4;
   //性别
-  Gender gender = 4;
+  Gender gender = 5;
   //身高
-  int32  height = 5;
+  int32  height = 6;
   //体重
-  int32 weight = 6;
+  int32 weight = 7;
   //家乡
-  string hometown = 7;
+  string hometown = 8;
   //所在地
-  string location = 8;
+  string location = 9;
   //感情状态
-  EmotionalStatus emotionalStatus = 9;
+  EmotionalStatus emotionalStatus = 10;
   //最高学历
-  Education education = 10;
+  Education education = 11;
   //毕业（在读）院校
-  string university = 11;
+  string university = 12;
   //公司
-  string company = 12;
+  string company = 13;
   //微信号
-  string wechatNumber = 13;
+  string wechatNumber = 14;
   //手机号
-  string phoneNumber = 14;
+  string phoneNumber = 15;
 }
 //数据量
 message Count{

@@ -29,6 +29,7 @@ func CvtDataStructure(input interface{}) interface{} {
 			Id:              user.Id,
 			HeadImage:       user.HeadImage,
 			NickName:        user.NickName,
+			BirthDate:       user.BirthDate,
 			Gender:          api.Gender(api.Gender_value[user.Gender]),
 			Height:          user.Height,
 			Weight:          user.Weight,

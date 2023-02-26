@@ -12,7 +12,7 @@ import (
 )
 
 func Init() *gorm.DB {
-	db, err := gorm.Open("mysql", "root:root@(101.43.39.188:3306)/reservation?charset=utf8mb4&parseTime=True&loc=Local")
+	db, err := gorm.Open("mysql", "root:V1p3r1@#$%sdfvdswerDF43.@(101.43.39.188:3306)/reservation?charset=utf8mb4&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err)
 	}

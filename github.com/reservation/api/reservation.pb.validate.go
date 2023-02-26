@@ -3818,6 +3818,8 @@ func (m *User) validate(all bool) error {
 
 	// no validation rules for University
 
+	// no validation rules for Occupation
+
 	// no validation rules for Company
 
 	// no validation rules for WechatNumber

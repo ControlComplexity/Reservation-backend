@@ -37,6 +37,7 @@ func CvtDataStructure(input interface{}) interface{} {
 			Location:        user.Location,
 			EmotionalStatus: api.EmotionalStatus(api.EmotionalStatus_value[user.EmotionalStatus]),
 			Education:       api.Education(api.Education_value[user.Education]),
+			Occupation:      user.Occupation,
 			University:      user.University,
 			WechatNumber:    user.WechatNumber,
 			PhoneNumber:     user.PhoneNumber,

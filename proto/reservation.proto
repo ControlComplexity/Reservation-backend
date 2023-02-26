@@ -471,12 +471,14 @@ message User{
   Education education = 11;
   //毕业（在读）院校
   string university = 12;
+  //职业
+  string occupation = 13;
   //公司
-  string company = 13;
+  string company = 14;
   //微信号
-  string wechatNumber = 14;
+  string wechatNumber = 15;
   //手机号
-  string phoneNumber = 15;
+  string phoneNumber = 16;
 }
 //数据量
 message Count{
@@ -489,29 +491,33 @@ message Count{
 }
 
 enum Education{
+  //默认
+  EDUCATION_NONE = 0;
   //高考统招本科
-  UNIFIED_BACHELOR = 0;
+  UNIFIED_BACHELOR = 1;
   //非全日制本科
-  PART_TIME_BACHELOR = 1;
+  PART_TIME_BACHELOR = 2;
   //专升本本科
-  TRANSFORMED_BACHELOR = 2;
+  TRANSFORMED_BACHELOR = 3;
   //全日制硕士
-  FULL_TIME_MASTER = 3;
+  FULL_TIME_MASTER = 4;
   //非全日制硕士
-  PART_TIME_MASTER = 4;
+  PART_TIME_MASTER = 5;
   //全日制博士
-  FULL_TIME_DOCTOR = 5;
+  FULL_TIME_DOCTOR = 6;
   //非全日制博士
-  PART_TIME_DOCTOR = 6;
+  PART_TIME_DOCTOR = 7;
   //其他
-  OTHER = 7;
+  OTHER = 8;
 }
 //感情状态
 enum EmotionalStatus{
+  //默认
+  EMOTIONAL_STATUS_NONE = 0;
   //单身且无婚史
-  SINGLE_WITHOUT_MARRIAGE_HISTORY = 0;
+  SINGLE_WITHOUT_MARRIAGE_HISTORY = 1;
   //单身且离异
-  SINGLE_AND_DIVORCED = 1;
+  SINGLE_AND_DIVORCED = 2;
 }
 //性别
 enum Gender{

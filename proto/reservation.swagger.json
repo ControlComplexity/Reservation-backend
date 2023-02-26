@@ -636,6 +636,7 @@
     "reservationEducation": {
       "type": "string",
       "enum": [
+        "EDUCATION_NONE",
         "UNIFIED_BACHELOR",
         "PART_TIME_BACHELOR",
         "TRANSFORMED_BACHELOR",
@@ -645,17 +646,18 @@
         "PART_TIME_DOCTOR",
         "OTHER"
       ],
-      "default": "UNIFIED_BACHELOR",
-      "title": "- UNIFIED_BACHELOR: 高考统招本科\n - PART_TIME_BACHELOR: 非全日制本科\n - TRANSFORMED_BACHELOR: 专升本本科\n - FULL_TIME_MASTER: 全日制硕士\n - PART_TIME_MASTER: 非全日制硕士\n - FULL_TIME_DOCTOR: 全日制博士\n - PART_TIME_DOCTOR: 非全日制博士\n - OTHER: 其他"
+      "default": "EDUCATION_NONE",
+      "title": "- EDUCATION_NONE: 默认\n - UNIFIED_BACHELOR: 高考统招本科\n - PART_TIME_BACHELOR: 非全日制本科\n - TRANSFORMED_BACHELOR: 专升本本科\n - FULL_TIME_MASTER: 全日制硕士\n - PART_TIME_MASTER: 非全日制硕士\n - FULL_TIME_DOCTOR: 全日制博士\n - PART_TIME_DOCTOR: 非全日制博士\n - OTHER: 其他"
     },
     "reservationEmotionalStatus": {
       "type": "string",
       "enum": [
+        "EMOTIONAL_STATUS_NONE",
         "SINGLE_WITHOUT_MARRIAGE_HISTORY",
         "SINGLE_AND_DIVORCED"
       ],
-      "default": "SINGLE_WITHOUT_MARRIAGE_HISTORY",
-      "description": "- SINGLE_WITHOUT_MARRIAGE_HISTORY: 单身且无婚史\n - SINGLE_AND_DIVORCED: 单身且离异",
+      "default": "EMOTIONAL_STATUS_NONE",
+      "description": "- EMOTIONAL_STATUS_NONE: 默认\n - SINGLE_WITHOUT_MARRIAGE_HISTORY: 单身且无婚史\n - SINGLE_AND_DIVORCED: 单身且离异",
       "title": "感情状态"
     },
     "reservationGender": {
@@ -1212,6 +1214,10 @@
         "university": {
           "type": "string",
           "title": "毕业（在读）院校"
+        },
+        "occupation": {
+          "type": "string",
+          "title": "职业"
         },
         "company": {
           "type": "string",
